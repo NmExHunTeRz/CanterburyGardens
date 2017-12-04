@@ -14,14 +14,12 @@ class MainController extends Controller
     {
         $sites = $sensors = [];
 
+        // Initialize sites and relevant metadata
         $data_sites = $this->getData('sites');
-
         foreach ($data_sites as $data_site) {
             $sites[$data_site['id']] = $data_site;
         }
-
-        $types = $this->getData('devices');
-
+        // Set zones array to associative array
         foreach ($sites as $key => $site) {
             foreach ($site['zones'] as $index => $zone) {
                 $sites[$key]['zones'][$zone['id']] = ['name' => $zone['name'], 'devices' => []];
@@ -29,18 +27,20 @@ class MainController extends Controller
             }
         }
 
+        // Initialize all sensor devices
+        $types = $this->getData('devices');
         foreach ($types as $key => $type) {
             foreach ($type as $sensor) {
                 $data = $this->getData("device/$sensor");
-
                 $device = new Device($data['name'], $data['id'], $key, $data['last_connection']);
-
                 array_push($sites[$data['site_id']]['zones'][$data['zone_id']]['devices'], $device);
                 array_push($sensors, $device);
 
             }
         }
-        // Go into sensor, pick an id, change it, find it in sites and see if its changed
+        // TODO: Go into sensor, pick an id, change it, find it in sites and see if its changed
+
+        // Initialize data arrays
 
 
         dump($sensors);
@@ -52,5 +52,9 @@ class MainController extends Controller
     public function getData($path)
     {
         return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
+    }
+
+    public function refreshRawSensorData($sensorID, $rate) {
+    	return getData("/$sensorID/$rate");
     }
 }
