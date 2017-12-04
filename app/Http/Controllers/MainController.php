@@ -11,6 +11,6 @@ class MainController extends Controller
      */
     public function index()
     {
-        dd("hit");
+        dd("hit2");
     }
 }
