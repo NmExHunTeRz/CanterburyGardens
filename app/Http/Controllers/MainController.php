@@ -11,6 +11,10 @@ class MainController extends Controller
      */
     public function index()
     {
-        dd("hit2");
+        $sites = json_decode(file_get_contents('http://shed.kent.ac.uk/sites'), true);
+
+
+
+        return view('home', ['sites' => collect($sites)]);
     }
 }
