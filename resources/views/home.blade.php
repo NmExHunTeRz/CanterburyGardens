@@ -82,7 +82,6 @@
             Canterbury Gardens
         </div>
 
-        {!! dump($sites)!!}
 
     </div>
 </div>
