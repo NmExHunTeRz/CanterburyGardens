@@ -117,14 +117,11 @@
         Create an object containing the JS Google Map at the specified div.
     */
     function IoTMap(mapDiv, dataDiv) {
-    	console.log("making map object! " + mapDiv);
-    	console.log(document.getElementById(mapDiv));
         this.prevInfoWindow = false;
         this.sites = {};
         this.markers = [];
         //Initialize map object
         this.map = new google.maps.Map(document.getElementById(mapDiv), mapOptions);
-        console.log("map object made");
         // Add our sites markers
         addSiteMarkers(this, dataDiv);
     }
@@ -134,7 +131,6 @@
     */
     function addSiteMarkers(mapObject, dataDiv) {
         $.each({!! json_encode($sites) !!}, function(siteIndex, site) {
-        	console.log("Marker created");
             var marker = new google.maps.Marker({
                 position: {"lat": site.lat, "lng": site.lon},
                 map: mapObject.map,
