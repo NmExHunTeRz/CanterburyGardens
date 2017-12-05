@@ -28,6 +28,9 @@ class ConditionTableSeeder extends Seeder
         DB::table('conditions')
             ->insert(
                 ['site_id' => 'house', 'high_humidity' => null, 'low_humidity' => null, 'high_moisture' => null, 'low_moisture' => null, 'high_lux' => null, 'low_lux' => null, 'high_temp' => null, 'low_temp' => null, 'winter_high_temp' => null, 'winter_low_temp' => null, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+        DB::table('conditions')
+            ->insert(
+                ['site_id' => 'muck_heap', 'high_humidity' => 100, 'low_humidity' => 80, 'high_moisture' => null, 'low_moisture' => null, 'high_lux' => null, 'low_lux' => null, 'high_temp' => 43, 'low_temp' => 37, 'winter_high_temp' => null, 'winter_low_temp' => null, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
     }
 
 }
