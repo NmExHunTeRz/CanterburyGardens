@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +14,6 @@
 */
 
 Route::get('/', 'MainController@index');
+
+Route::get('/home', 'HomeController@index');
+
