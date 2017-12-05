@@ -34,7 +34,7 @@
 	content: "";
 	width: 25px;
 	height: 25px;
-	background: url("../img/gasmask-icon.png");
+	background: url("/img/gasmask-icon.png");
 	background-size: 100%;
 	display: inline-block;
 	margin-top: 4px;
@@ -45,7 +45,7 @@
 	content: "";
 	width: 25px;
 	height: 25px;
-	background: url("../img/lightning-icon.png");
+	background: url("/img/lightning-icon.png");
 	background-size: 100%;
 	display: inline-block;
 	margin-top: 4px;
@@ -56,7 +56,7 @@
 	content: "";
 	width: 25px;
 	height: 25px;
-	background: url("../img/moisture-icon.png");
+	background: url("/img/moisture-icon.png");
 	background-size: 100%;
 	display: inline-block;
 	margin-top: 4px;
@@ -67,7 +67,7 @@
 	content: "";
 	width: 25px;
 	height: 25px;
-	background: url("../img/thermometer-icon.png");
+	background: url("/img/thermometer-icon.png");
 	background-size: 100%;
 	display: inline-block;
 	margin-top: 4px;
@@ -78,7 +78,7 @@
 	content: "";
 	width: 25px;
 	height: 25px;
-	background: url("../img/sunny-icon.png");
+	background: url("/img/sunny-icon.png");
 	background-size: 100%;
 	display: inline-block;
 	margin-top: 4px;
@@ -138,7 +138,7 @@
                 position: site.loc,
                 map: mapObject.map,
             });
-            // marker.setIcon(site.icon);
+            marker.setIcon(site.icon);
             marker.addListener('click', function() {
                 var str =  "<ul>";
                 $.each(site.zones, function(zoneIndex, zone) {
@@ -152,7 +152,7 @@
             });
         });
     }
-    </script>
+   </script>
 </head>
 <body>
 <div class="flex-center position-ref full-height">

@@ -21,6 +21,12 @@ class MainController extends Controller
         $data_sites = $this->getData('sites');
         foreach ($data_sites as $data_site) {
             $this->sites[$data_site['id']] = $data_site;
+            if ($data_site['id'] == 'house')
+                $this->sites[$data_site['id']]['icon'] = "/img/farm.png";
+            else if ($data_site['id'] == 'outside')
+                $this->sites[$data_site['id']]['icon'] = "/img/plant.png";
+            else
+                $this->sites[$data_site['id']]['icon'] = "/img/greenhouse.png";
         }
         // Set zones array to associative array
         foreach ($this->sites as $key => $site) {
