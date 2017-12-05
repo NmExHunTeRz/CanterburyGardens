@@ -11,6 +11,19 @@
           </script></p>
         </div>
         <div class="row">
+            <div class="col-sm-12">
+                @foreach ($devices as $device)
+                    <div class="col-sm-2">
+                        <div class="panel panel-default" style="text-align: center">
+                            <div class="panel-body">
+                                <p>{{$device->name}}</p>
+                                <i class="fa fa-check text-success fa-3x" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
           <div class="col-sm-8 map">
             Huy's map will go here
           </div>

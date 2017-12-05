@@ -16,6 +16,7 @@
     <link href="{{ asset('css/bootstrap-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://bootswatch.com/3/cosmo/bootstrap.css">
+    <script src="https://use.fontawesome.com/0363e80ff7.js"></script>
 </head>
 
 <body>
@@ -25,41 +26,64 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Canterbury Gardens</a>
       </div>
-      <!-- <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                Left Side Of Navbar
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                {{--Left Side Of Navbar--}}
                 <ul class="nav navbar-nav">
-                    &nbsp;
+                    <li>
+                        <a href="./locations/gh1.html">Greenhouse 1</a>
+                    </li>
+                    <li>
+                        <a href="./locations/gh2.html">Greenhouse 2</a>
+                    </li>
+                    <li>
+                        <a href="./locations/gh3.html">Greenhouse 3</a>
+                    </li>
+                    <li>
+                        <a href="./locations/outdoors.html">Outdoor Plots</a>
+                    </li>
+                    <li>
+                        <a href="./locations/muck.html">Muck Heap</a>
+                    </li>
+                    <li>
+                        <a href="./locations/store.html">Store Room</a>
+                    </li>
+                    <li>
+                        <a href="./locations/solar.html">Solar Plant</a>
+                    </li>
                 </ul>
 
-                Right Side Of Navbar
+                {{--Right Side Of Navbar--}}
                 <ul class="nav navbar-nav navbar-right">
-                    Authentication Links
-                    {{--@guest--}}
-                        {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
+                    {{--Authentication Links--}}
+                    @guest
+                        <li><a href="">Login</a></li>
+                        <li><a href="">Register</a></li>
+
+{{--                        <li><a href="{{ route('login') }}">Login</a></li>--}}
                         {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
-                    {{--@else--}}
-                        {{--<li class="dropdown">--}}
-                            {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">--}}
-                                {{--{{ Auth::user()->name }} <span class="caret"></span>--}}
-                            {{--</a>--}}
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
 
-                            {{--<ul class="dropdown-menu">--}}
-                                {{--<li>--}}
-                                    {{--<a href="{{ route('logout') }}"--}}
-                                       {{--onclick="event.preventDefault();--}}
-                                                     {{--document.getElementById('logout-form').submit();">--}}
-                                        {{--Logout--}}
-                                    {{--</a>--}}
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
 
-                                    {{--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-                                        {{--{{ csrf_field() }}--}}
-                                    {{--</form>--}}
-                                {{--</li>--}}
-                            {{--</ul>--}}
-                        {{--</li>--}}
-                    {{--@endguest--}}
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
                 </ul>
-            </div> -->
+            </div>
     </div>
   </nav>
 
