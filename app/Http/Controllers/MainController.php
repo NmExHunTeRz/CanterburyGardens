@@ -93,8 +93,12 @@ class MainController extends Controller
                     break;
             }
         }
+        $devices = collect($this->sensors)->keyBy('id');
 
-        return view('index', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
+
+//        dump($devices['gh1_south_door_temp']->timestamps->take(50));
+//        dd($devices['gh1_south_door_temp']->readings->take(50));
+        return view('index', ['sites' => $this->sites, 'devices' => $devices]);
     }
 
     public function processTimestamps($results)

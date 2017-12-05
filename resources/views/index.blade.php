@@ -17,7 +17,7 @@
                         <div class="panel panel-default" style="text-align: center">
                             <div class="panel-body">
                                 <p>{{$device->name}}</p>
-                                <i class="fa fa-check text-success fa-3x" aria-hidden="true"></i>
+                                <i class="fa fa-check text-success fa-2x" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
