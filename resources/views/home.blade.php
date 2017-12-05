@@ -65,11 +65,9 @@
         $("#view_device").click(function() {
             var id = $("#devices option:selected").val();
 
-            var array = {!! json_encode($devices) !!};
-            console.log(array[id]['readings']);
-            console.log(array[id]['timestamps']);
+            var encoded_data = {!! json_encode($devices) !!};
 
-            generateLineGraph(array[id]['readings'], array[id]['timestamps']);
+            generateLineGraph(encoded_data[id]['readings'], encoded_data[id]['timestamps']);
         });
 
         function generateLineGraph (data, labels) {
@@ -78,7 +76,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '# of readings',
+                        label: '# readings',
                         data: data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
