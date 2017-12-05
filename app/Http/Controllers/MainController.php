@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Condition;
 use App\Device;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class MainController extends Controller
      */
     public function index()
     {
+        $conditions = Condition::all(); //
+
         $this->sites = [];
         $this->sensors = [];
         // Initialize sites and relevant metadata
@@ -50,7 +53,7 @@ class MainController extends Controller
 
         // Initialize data arrays
         foreach($this->sensors as $device) {
-            $data = $this->refreshRawSensorData($device->getID(), 'hour');
+            $data = $this->refreshRawSensorData($device->getID(), 'minute');
             switch($device->getType()) {
                 case 'gas':
                     $device->setTimestamps(collect($data['gas_values'])->pluck(0));
@@ -91,10 +94,7 @@ class MainController extends Controller
             }
         }
 
-        dump($this->sites);
-        dump(collect($this->sensors)->keyBy('id'));
-
-        return view('home', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
+        return view('index', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
     }
 
     public function processTimestamps($results)
