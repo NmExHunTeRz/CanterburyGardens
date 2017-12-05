@@ -72,6 +72,8 @@
 
             var encoded_data = {!! json_encode($devices) !!};
 
+            console.log(encoded_data);
+
             generateLineGraph(encoded_data[id]['readings'], encoded_data[id]['timestamps']);
         });
 
@@ -84,7 +86,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '# readings',
+                        label: '# reading',
                         data: data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
