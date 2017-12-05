@@ -66,9 +66,10 @@
             var id = $("#devices option:selected").val();
 
             var array = {!! json_encode($devices) !!};
-            console.log(array[id]['data'][0]);
+            console.log(array[id]['readings']);
+            console.log(array[id]['timestamps']);
 
-            generateLineGraph([12, 19, 3, 5, 2, 3], ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]);
+            generateLineGraph(array[id]['readings'], array[id]['timestamps']);
         });
 
         function generateLineGraph (data, labels) {
