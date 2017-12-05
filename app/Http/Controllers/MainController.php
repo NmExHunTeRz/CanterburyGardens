@@ -47,34 +47,44 @@ class MainController extends Controller
             $data = $this->refreshRawSensorData($device->getID(), 'hour');
             switch($device->getType()) {
                 case 'gas':
+                    $device->setTimestamps(collect($data['gas_values'])->pluck(0));
+                    $device->setReadings(collect($data['gas_values'])->pluck(1));
                     $device->setData($data['gas_values']);
                     $device->setScale($data['gas_scale']);
                     break;
                 case 'solar':
+                    $device->setTimestamps(collect($data['solar_value'])->pluck(0));
+                    $device->setReadings(collect($data['solar_value'])->pluck(1));
                     $device->setData($data['solar_value']);
                     $device->setScale($data['solar_scale']);
                     break;
                 case 'hydrometer':
+                    $device->setTimestamps(collect($data['moisture_value'])->pluck(0));
+                    $device->setReadings(collect($data['moisture_value'])->pluck(1));
                     $device->setData($data['moisture_value']);
                     $device->setScale($data['moisture_scale']);
                     break;
                 case 'tempHumid':
-                    $device->setTimestamps($this->processTimestamps($data['temperature_value']));
-                    $device->setReadings($this->processReadings($data['temperature_value']));
+                    $device->setTimestamps(collect($data['temperature_value'])->pluck(0));
+                    $device->setReadings(collect($data['temperature_value'])->pluck(1));
+
+                    $device->setSecondaryTimestamps(collect($data['humidity_value'])->pluck(0));
+                    $device->setSecondaryReadings(collect($data['humidity_value'])->pluck(1));
+
                     $device->setData($data['temperature_value']);
                     $device->setScale($data['temp_scale']);
                     $device->setSecondaryData($data['humidity_value']);
                     $device->setSecondaryScale($data['humidity_scale']);
                     break;
                 case 'lumosity':
+                    $device->setTimestamps(collect($data['light_value'])->pluck(0));
+                    $device->setReadings(collect($data['light_value'])->pluck(1));
                     $device->setData($data['light_value']);
                     $device->setScale($data['light_scale']);
                     break;
             }
         }
 
-        dump($this->sensors[13]->readings);
-        dump($this->sensors[13]->timestamps);
         dump($this->sites);
         dump(collect($this->sensors)->keyBy('id'));
 
