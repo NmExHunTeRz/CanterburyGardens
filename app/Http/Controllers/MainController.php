@@ -59,6 +59,9 @@ class MainController extends Controller
                     $device->setScale($data['moisture_scale']);
                     break;
                 case 'tempHumid':
+                    $device->setReading($data['temperature_value']);
+                    $device->setTimestamp($data['temperature_value']);
+
                     $device->setData($data['temperature_value']);
                     $device->setScale($data['temp_scale']);
                     $device->setSecondaryData($data['humidity_value']);
@@ -69,12 +72,14 @@ class MainController extends Controller
                     $device->setScale($data['light_scale']);
                     break;
             }
+            dump($device);
         }
 
-        dump($this->sensors);
+//        dump($this->sensors);
         dump($this->sites);
+        dump(collect($this->sensors)->keyBy('id'));
 
-        return view('home', ['sites' => collect($this->sites)]);
+        return view('home', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
     }
 
     public function getData($path)

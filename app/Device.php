@@ -10,6 +10,8 @@ class Device
     public $last_connection;
 
     public $data;
+    public $timestamp;
+    public $reading;
     public $secondaryData;
     public $dataScale;
     public $secondaryDataScale;
@@ -21,6 +23,8 @@ class Device
         $this->type = $type;
         $this->last_connection = $last_connection;
         $this->data = null;
+        $this->timestamp = null;
+        $this->reading = null;
         $this->secondaryData = null;
         $this->dataScale = null;
         $this->secondaryDataScale = null;
@@ -44,6 +48,16 @@ class Device
 
     public function setData($data) {
         $this->data = $data;
+    }
+
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    public function setReading($reading)
+    {
+        $this->reading = $reading;
     }
 
     public function setSecondaryData($data) {
