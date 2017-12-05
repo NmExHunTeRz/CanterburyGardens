@@ -62,7 +62,12 @@
 </div>
 <script>
     $(document).ready(function() {
+        var chart = null;
+
         $("#view_device").click(function() {
+            if (chart) // If we have an existing chart then we need to destroy it before generating a new one
+                chart.destroy();
+
             var id = $("#devices option:selected").val();
 
             var encoded_data = {!! json_encode($devices) !!};
@@ -71,7 +76,10 @@
         });
 
         function generateLineGraph (data, labels) {
-            new Chart(document.getElementById("myChart").getContext('2d'), {
+            $("#myChart").html('');
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
