@@ -14,7 +14,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-theme.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('css/main.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://bootswatch.com/3/cosmo/bootstrap.css">
 </head>
 
