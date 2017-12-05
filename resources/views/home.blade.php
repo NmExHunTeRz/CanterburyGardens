@@ -134,8 +134,9 @@
     */
     function addSiteMarkers(mapObject, dataDiv) {
         $.each({!! json_encode($sites) !!}, function(siteIndex, site) {
+        	console.log("Marker created");
             var marker = new google.maps.Marker({
-                position: site.loc,
+                position: {"lat": site.lat, "lng": site.lon},
                 map: mapObject.map,
             });
             marker.setIcon(site.icon);
