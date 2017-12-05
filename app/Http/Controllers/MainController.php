@@ -94,10 +94,7 @@ class MainController extends Controller
             }
         }
 
-        dump($this->sites);
-        dump(collect($this->sensors)->keyBy('id'));
-
-        return view('home', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
+        return view('index', ['sites' => $this->sites, 'devices' => collect($this->sensors)->keyBy('id')]);
     }
 
     public function processTimestamps($results)
