@@ -23,7 +23,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Cooksey Farms</a>
+        <a class="navbar-brand" href="#">Canterbury Gardens</a>
       </div>
       <!-- <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 Left Side Of Navbar
