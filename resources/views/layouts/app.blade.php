@@ -19,9 +19,9 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-default navbar-static-top">
+    <!-- <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
-            <!-- <div class="navbar-header">
+            <div class="navbar-header">
                 Collapsed Hamburger
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
                     <span class="sr-only">Toggle Navigation</span>
@@ -33,9 +33,18 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Canterbury Gardens
                 </a>
-            </div> -->
+            </div>
 
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            
+        </div>
+    </nav> -->
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Cooksey Farms</a>
+      </div>
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     &nbsp;
@@ -70,14 +79,6 @@
                     {{--@endguest--}}
                 </ul>
             </div>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Cooksey Farms</a>
-      </div>
     </div>
   </nav>
 
