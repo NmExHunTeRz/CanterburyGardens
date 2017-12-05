@@ -7,23 +7,26 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    public $sites;
+    public $sensors;
+
     /**
      * Our initial index function that gets hit on initial page load
      */
     public function index()
     {
-        $sites = $sensors = [];
-
+        $this->sites = [];
+        $this->sensors = [];
         // Initialize sites and relevant metadata
         $data_sites = $this->getData('sites');
         foreach ($data_sites as $data_site) {
-            $sites[$data_site['id']] = $data_site;
+            $this->sites[$data_site['id']] = $data_site;
         }
         // Set zones array to associative array
-        foreach ($sites as $key => $site) {
+        foreach ($this->sites as $key => $site) {
             foreach ($site['zones'] as $index => $zone) {
-                $sites[$key]['zones'][$zone['id']] = ['name' => $zone['name'], 'devices' => []];
-                unset($sites[$key]['zones'][$index]);
+                $this->sites[$key]['zones'][$zone['id']] = ['name' => $zone['name'], 'devices' => []];
+                unset($this->sites[$key]['zones'][$index]);
             }
         }
 
@@ -33,20 +36,45 @@ class MainController extends Controller
             foreach ($type as $sensor) {
                 $data = $this->getData("device/$sensor");
                 $device = new Device($data['name'], $data['id'], $key, $data['last_connection']);
-                array_push($sites[$data['site_id']]['zones'][$data['zone_id']]['devices'], $device);
-                array_push($sensors, $device);
-
+                array_push($this->sites[$data['site_id']]['zones'][$data['zone_id']]['devices'], $device);
+                array_push($this->sensors, $device);
             }
         }
         // TODO: Go into sensor, pick an id, change it, find it in sites and see if its changed
 
         // Initialize data arrays
+        foreach($this->sensors as $device) {
+            $data = $this->refreshRawSensorData($device->getID(), 'hour');
+            switch($device->getType()) {
+                case 'gas':
+                    $device->setData($data['gas_values']);
+                    $device->setScale($data['gas_scale']);
+                    break;
+                case 'solar':
+                    $device->setData($data['solar_value']);
+                    $device->setScale($data['solar_scale']);
+                    break;
+                case 'hydrometer':
+                    $device->setData($data['moisture_value']);
+                    $device->setScale($data['moisture_scale']);
+                    break;
+                case 'tempHumid':
+                    $device->setData($data['temperature_value']);
+                    $device->setScale($data['temp_scale']);
+                    $device->setSecondaryData($data['humidity_value']);
+                    $device->setSecondaryScale($data['humidity_scale']);
+                    break;
+                case 'lumosity':
+                    $device->setData($data['light_value']);
+                    $device->setScale($data['light_scale']);
+                    break;
+            }
+        }
 
+        dump($this->sensors);
+        dump($this->sites);
 
-        dump($sensors);
-        dump($sites);
-
-        return view('home', ['sites' => collect($sites)]);
+        return view('home', ['sites' => collect($this->sites)]);
     }
 
     public function getData($path)
@@ -55,6 +83,6 @@ class MainController extends Controller
     }
 
     public function refreshRawSensorData($sensorID, $rate) {
-    	return getData("/$sensorID/$rate");
+    	return $this->getData("device/$sensorID/$rate");
     }
 }
