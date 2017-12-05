@@ -17,42 +17,23 @@
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://bootswatch.com/3/cosmo/bootstrap.css">
 </head>
+
 <body>
 <div id="app">
-    <!-- <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                Collapsed Hamburger
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                Branding Image
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Canterbury Gardens
-                </a>
-            </div>
-
-            
-        </div>
-    </nav> -->
-
     <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Cooksey Farms</a>
       </div>
-      <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
+      <!-- <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                Left Side Of Navbar
                 <ul class="nav navbar-nav">
                     &nbsp;
                 </ul>
 
-                <!-- Right Side Of Navbar -->
+                Right Side Of Navbar
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
+                    Authentication Links
                     {{--@guest--}}
                         {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
                         {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
@@ -78,7 +59,7 @@
                         {{--</li>--}}
                     {{--@endguest--}}
                 </ul>
-            </div>
+            </div> -->
     </div>
   </nav>
 
@@ -92,7 +73,6 @@
           <li>
             <a href="https://www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg">Weather</a>
           </li>
-
         </ul>
         <ul class="nav nav-sidebar">
           <li>
