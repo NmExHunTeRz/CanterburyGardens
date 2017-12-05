@@ -6,7 +6,9 @@
           <h3>Daily Notices for
             <span id="date"></span>
           </h3>
-          <p>There are no additional tasks for today!</p>
+          <p><script>
+              console.log({!! json_encode($sites) !!});
+          </script></p>
         </div>
         <div class="row">
           <div class="col-sm-8 map">
