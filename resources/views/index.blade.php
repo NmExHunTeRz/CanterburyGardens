@@ -244,8 +244,6 @@ $(document).ready(function() {
 
         var encoded_data = {!! json_encode($devices) !!};
 
-        console.log(encoded_data);
-
         generateLineGraph(encoded_data[id]['readings'], encoded_data[id]['timestamps']);
     });
 
