@@ -108,7 +108,6 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-	<script src="{{ asset('js/bootstrap.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
 	<script type="text/javascript">window.onload = onLoad() </script>
