@@ -68,7 +68,8 @@ class MainController extends Controller
 					$device->setScale($data['gas_scale']);
 					$device->setFidelity($fidelity);
 					$device->processData();
-					break;
+                    $device->setNotify();
+                    break;
 				case 'solar':
 					$timestamps = array_slice(collect($data['solar_value'])->pluck(0)->toArray(), count($data['solar_value']) - 400);
 					$readings = array_slice(collect($data['solar_value'])->pluck(1)->toArray(), count($data['solar_value']) - 400);
@@ -77,6 +78,7 @@ class MainController extends Controller
 					$device->setScale($data['solar_scale']);
 					$device->setFidelity($fidelity);
 					// $device->processData();
+                    $device->setNotify();
 					break;
 				case 'hydrometer':
 					$timestamps = array_slice(collect($data['moisture_value'])->pluck(0)->toArray(), count($data['moisture_value']) - 400);
@@ -86,6 +88,7 @@ class MainController extends Controller
 					$device->setScale($data['moisture_scale']);
 					$device->setFidelity($fidelity);
 					// $device->processData();
+                    $device->setNotify();
 					break;
 				case 'tempHumid':
 					$timestamps = array_slice(collect($data['temperature_value'])->pluck(0)->toArray(), count($data['temperature_value']) - 400);
@@ -102,6 +105,7 @@ class MainController extends Controller
 					$device->setSecondaryScale($data['humidity_scale']);
 					$device->setFidelity($fidelity);
 					// $device->processData();
+                    $device->setNotify();
 					break;
 				case 'lumosity':
 					$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - 1000);
@@ -111,6 +115,7 @@ class MainController extends Controller
 					$device->setScale($data['light_scale']);
 					$device->setFidelity($fidelity);
 					// $device->processData();
+                    $device->setNotify();
 					break;
 			}
 		}
