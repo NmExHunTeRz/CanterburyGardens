@@ -39,8 +39,6 @@ class Device
         $str = str_replace("T", " ", $last_connection);
         $str = substr($str, 0, 19);
         $this->last_connection = $str;
-
-        $this->setNotify();
     }
 
     public function getName() {
@@ -96,8 +94,8 @@ class Device
 
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i] == null) { 
-                dump($this->id);
-                dump($data[$i]);
+//                dump($this->id);
+//                dump($data[$i]);
             }
         }
     }
@@ -112,9 +110,14 @@ class Device
         else {
             $i = sizeof($this->readings) - 1;
             $n = sizeof($this->readings) - 20;
+
             for ($i; $i >= $n; $i--) {
-                if ($this->readings[$i] != "null") { 
+                dump("Reading:");
+                dump($this->readings[$i]);
+                if ($this->readings[$i] !== null) {
                     $tmp = false;
+
+                    dump("Not found null value");
                 }
             }
         }
