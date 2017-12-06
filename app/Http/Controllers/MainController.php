@@ -77,7 +77,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['solar_scale']);
 					$device->setFidelity($fidelity);
-					// $device->processData();
+					$device->processData();
                     $device->setNotify();
 					break;
 				case 'hydrometer':
@@ -87,7 +87,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['moisture_scale']);
 					$device->setFidelity($fidelity);
-					// $device->processData();
+					$device->processData();
                     $device->setNotify();
 					break;
 				case 'tempHumid':
@@ -104,7 +104,7 @@ class MainController extends Controller
 					$device->setScale($data['temp_scale']);
 					$device->setSecondaryScale($data['humidity_scale']);
 					$device->setFidelity($fidelity);
-					// $device->processData();
+					$device->processData();
                     $device->setNotify();
 					break;
 				case 'lumosity':
@@ -114,7 +114,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['light_scale']);
 					$device->setFidelity($fidelity);
-					// $device->processData();
+					$device->processData();
                     $device->setNotify();
 					break;
 			}
