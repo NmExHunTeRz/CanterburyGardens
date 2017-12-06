@@ -8,89 +8,6 @@
 		console.log(devices);
 	</script>
 
-<!-- Map Styling -->
-
-	<style>
-		.map-container {
-	padding-top: 20px;
-	margin: auto;
-}
-
-#iot-map {
-	height: 400px;
-}
-
-/* Data Panel */
-#iot-map-data {
-	height: 400px;
-	background-color: #235789;
-}
-#iot-map-data ul {
-	margin: 15px;
-}
-#iot-map-data ul li {
-	color: white;
-	font-size: 18px;
-	list-style-type: none;
-}
-
-.sensor-gas:before {
-	content: "";
-	width: 25px;
-	height: 25px;
-	background: url("/img/gasmask-icon.png");
-	background-size: 100%;
-	display: inline-block;
-	margin-top: 4px;
-    left: 40px;
-    position: absolute;
-}
-.sensor-solar:before {
-	content: "";
-	width: 25px;
-	height: 25px;
-	background: url("/img/lightning-icon.png");
-	background-size: 100%;
-	display: inline-block;
-	margin-top: 4px;
-    left: 40px;
-    position: absolute;
-}
-.sensor-hydrometer:before {
-	content: "";
-	width: 25px;
-	height: 25px;
-	background: url("/img/moisture-icon.png");
-	background-size: 100%;
-	display: inline-block;
-	margin-top: 4px;
-    left: 40px;
-    position: absolute;
-}
-.sensor-tempHumid:before {
-	content: "";
-	width: 25px;
-	height: 25px;
-	background: url("/img/thermometer-icon.png");
-	background-size: 100%;
-	display: inline-block;
-	margin-top: 4px;
-    left: 40px;
-    position: absolute;
-}
-.sensor-lumosity:before {
-	content: "";
-	width: 25px;
-	height: 25px;
-	background: url("/img/sunny-icon.png");
-	background-size: 100%;
-	display: inline-block;
-	margin-top: 4px;
-    left: 40px;
-    position: absolute;
-}
-	</style>
-
 	<!-- Map Scripting -->
 
 	<script>
@@ -208,6 +125,10 @@
             <div id='iot-map-data' class='col-md-6'></div>
         </div>
     </div>
+    <!-- Google Maps API -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAldSd8XQP3VPXbcOQ4smOrpH-rBy3r7O8&callback=initMap">
+    </script>
 
     <h3>Devices</h3>
         <div class="panel panel-default">
