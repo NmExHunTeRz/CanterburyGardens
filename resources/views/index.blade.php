@@ -62,16 +62,21 @@
         });
     }
    </script>
-
 <div class='container dash-container'>
     <div class='row'>
-    </br></br>
-    <h1 class="page-header">Dashboard</h1>
+        </br></br>
+        <h1 class="page-header">Dashboard</h1>
         <div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
             <h3>Notifications</h3>
             <ul id='notifications'></ul>
+            <div class="container">
+                <p class="text-primary"><i class="fa fa-info-circle" aria-hidden="true"></i>  {{\Carbon\Carbon::now()->format('H:i - d/m/y')}}: Root Crops need watering.</p>
+                <p class="text-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  {{\Carbon\Carbon::now()->format('H:i - d/m/y')}}: Greenhouse 3 is too cold.</p>
+            </div>
+
         </div>
     </div>
+
     <div class="row">
         <div class='col-xs-12'>
             <h3>Overview</h3>
@@ -94,7 +99,7 @@
                             @foreach ($site['zones'] as $zone)
                                 <li>{{$zone['name']}}<ul>
                                         @foreach ($zone['devices'] as $device)
-                                            <li>{{$device->name}}:
+                                            <li>{{$device->name}}
                                                 @if ($device->notify == false)
                                                     <i class="text-success fa fa-check fa-lg" aria-hidden="true"></i>
                                                 @else
