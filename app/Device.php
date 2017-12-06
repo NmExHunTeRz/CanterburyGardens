@@ -91,7 +91,15 @@ class Device
     }
 
     public function processData() {
-        
+        $data = $this->readings;
+        $secondaryData = $this->secondaryReadings;
+
+        for ($i = 0; $i < count($data); $i++) {
+            if ($data[$i] == null) { 
+                dump($this->id);
+                dump($data[$i]);
+            }
+        }
     }
 
     public function setNotify() {

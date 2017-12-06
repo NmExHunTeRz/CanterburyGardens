@@ -54,10 +54,9 @@ class MainController extends Controller
 				array_push($this->sensors, $device);
 			}
 		}
-		// TODO: Go into sensor, pick an id, change it, find it in sites and see if its changed
 
 		// Initialize data arrays
-		$fidelity = '10minute';
+		$fidelity = 'minute';
 		foreach($this->sensors as $device) {
 			$data = $this->refreshRawSensorData($device->getID(), $fidelity);
 			switch($device->getType()) {
@@ -68,6 +67,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['gas_scale']);
 					$device->setFidelity($fidelity);
+					$device->processData();
 					break;
 				case 'solar':
 					$timestamps = array_slice(collect($data['solar_value'])->pluck(0)->toArray(), count($data['solar_value']) - 400);
@@ -76,6 +76,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['solar_scale']);
 					$device->setFidelity($fidelity);
+					// $device->processData();
 					break;
 				case 'hydrometer':
 					$timestamps = array_slice(collect($data['moisture_value'])->pluck(0)->toArray(), count($data['moisture_value']) - 400);
@@ -84,6 +85,7 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['moisture_scale']);
 					$device->setFidelity($fidelity);
+					// $device->processData();
 					break;
 				case 'tempHumid':
 					$timestamps = array_slice(collect($data['temperature_value'])->pluck(0)->toArray(), count($data['temperature_value']) - 400);
@@ -99,14 +101,16 @@ class MainController extends Controller
 					$device->setScale($data['temp_scale']);
 					$device->setSecondaryScale($data['humidity_scale']);
 					$device->setFidelity($fidelity);
+					// $device->processData();
 					break;
 				case 'lumosity':
-					$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - 400);
-					$readings = array_slice(collect($data['light_value'])->pluck(1)->toArray(), count($data['light_value']) - 400);
+					$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - 1000);
+					$readings = array_slice(collect($data['light_value'])->pluck(1)->toArray(), count($data['light_value']) - 1000);
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
 					$device->setScale($data['light_scale']);
 					$device->setFidelity($fidelity);
+					// $device->processData();
 					break;
 			}
 		}
