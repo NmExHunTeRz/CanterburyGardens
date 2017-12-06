@@ -44,7 +44,7 @@ class Device
         $str = substr($str, 0, 19);
         $this->last_connection = $str;
 
-        // $this->setNotify();
+        $this->setNotify();
     }
 
     public function getName() {
@@ -106,14 +106,16 @@ class Device
         // See if the device has connected in the last 12 hours
         $last_connection = strtotime($this->last_connection);
         $current_time = time();
-        if (($current_time - $last_connection) > 43200)
-            $this->notify = true;
-        // See if the data from the last 100 readings were all null
+        $tmp = true;
+        if (($current_time - $last_connection) > 43200) {} //nothing to do here
+        // See if the data from the last 20 readings were all null
         else {
-            // $i = sizeof($this->readings);
-            $tmp = true;
-            for ($i = sizeof($this->readings); $i > ($i-100); $i--) {
-                if (!empty($this->readings[$i])) $tmp = false;
+            $i = sizeof($this->readings) - 1;
+            $n = sizeof($this->readings) - 20;
+            for ($i; $i >= $n; $i--) {
+                if ($this->readings[$i] != "null") { 
+                    $tmp = false;
+                }
             }
         }
         $this->notify = $tmp;

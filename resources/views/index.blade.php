@@ -4,10 +4,10 @@
 	<script type='text/javascript'>
 		window.sites = {!! json_encode($sites) !!};
 		console.log(sites);
-		window.sites = {!! json_encode($devices) !!};
+		window.devices = {!! json_encode($devices) !!};
 		console.log(devices);
 
-		$.foreach(window.sites, function(siteIndex, site) {
+		$.each(window.sites, function(siteIndex, site) {
 
 		});
 	</script>
@@ -23,11 +23,36 @@
 			<div class='col-xs-12 col-md-6 col-lg-6 dash-status'>
 				<h3>Device statuses</h3>
 				<div id='statuses'>
-					<ul>
-
-					</ul>
+					@foreach ($sites as $site)
+						<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#{{$site['id']}}-collapsible'>{{$site['name']}}</button>
+						<div id='{{$site['id']}}-collapsible' class='collapse'>
+							@foreach ($site['zones'] as $key=>$zone)
+								<ul>{{$key}}
+									@foreach ($zone['devices'] as $device)
+										<li>{{$device->name}}:
+											@if ($device->notify == false)
+												no
+											@else 
+												yes
+											@endif
+										</li>
+									@endforeach
+								</ul>
+							@endforeach
+						</div>
+					@endforeach
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="container">
+  <h2>Simple Collapsible</h2>
+  <p>Click on the button to toggle between showing and hiding content.</p>
+  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+  <div id="demo" class="collapse">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </div>
+</div>
 @endsection

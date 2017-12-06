@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+set_time_limit(60);
+
 use App\Condition;
 use App\Device;
 use Illuminate\Http\Request;
@@ -52,7 +54,7 @@ class MainController extends Controller
         // TODO: Go into sensor, pick an id, change it, find it in sites and see if its changed
 
         // Initialize data arrays
-        $fidelity = 'minute';
+        $fidelity = '10minute';
         foreach($this->sensors as $device) {
             $data = $this->refreshRawSensorData($device->getID(), $fidelity);
             switch($device->getType()) {
@@ -102,7 +104,6 @@ class MainController extends Controller
         $devices = collect($this->sensors)->keyBy('id');
 
         return view('index', ['sites' => $this->sites, 'devices' => $devices]);
-        // return view('index', ['sites' => $this->sites]);
     }
 
     public function processTimestamps($results)
