@@ -112,5 +112,8 @@
 	<script src="{{ asset('js/main.js') }}"></script>
 	<script type="text/javascript">window.onload = onLoad() </script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAldSd8XQP3VPXbcOQ4smOrpH-rBy3r7O8&callback=initMap">
+    </script>
 </body>
 </html>

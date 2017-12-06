@@ -8,6 +8,144 @@
 		console.log(devices);
 	</script>
 
+<!-- Map Styling -->
+
+	<style>
+		.map-container {
+	padding-top: 20px;
+	margin: auto;
+}
+
+#iot-map {
+	height: 400px;
+}
+
+/* Data Panel */
+#iot-map-data {
+	height: 400px;
+	background-color: #235789;
+}
+#iot-map-data ul {
+	margin: 15px;
+}
+#iot-map-data ul li {
+	color: white;
+	font-size: 18px;
+	list-style-type: none;
+}
+
+.sensor-gas:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url("/img/gasmask-icon.png");
+	background-size: 100%;
+	display: inline-block;
+	margin-top: 4px;
+    left: 40px;
+    position: absolute;
+}
+.sensor-solar:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url("/img/lightning-icon.png");
+	background-size: 100%;
+	display: inline-block;
+	margin-top: 4px;
+    left: 40px;
+    position: absolute;
+}
+.sensor-hydrometer:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url("/img/moisture-icon.png");
+	background-size: 100%;
+	display: inline-block;
+	margin-top: 4px;
+    left: 40px;
+    position: absolute;
+}
+.sensor-tempHumid:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url("/img/thermometer-icon.png");
+	background-size: 100%;
+	display: inline-block;
+	margin-top: 4px;
+    left: 40px;
+    position: absolute;
+}
+.sensor-lumosity:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url("/img/sunny-icon.png");
+	background-size: 100%;
+	display: inline-block;
+	margin-top: 4px;
+    left: 40px;
+    position: absolute;
+}
+	</style>
+
+	<!-- Map Scripting -->
+
+	<script>
+	console.log({!! json_encode($sites) !!});
+
+    function initMap() {
+        new IoTMap('iot-map', '#iot-map-data');
+    }
+
+    var centerPos = {lat: 51.308340, lng: 1.102324}
+    var mapOptions = {
+        zoom: 16,
+        center: centerPos,
+        mapTypeControl: false,
+        mapTypeId: 'satellite',
+    };
+
+    /*
+        Create an object containing the JS Google Map at the specified div.
+    */
+    function IoTMap(mapDiv, dataDiv) {
+        this.prevInfoWindow = false;
+        this.sites = {};
+        this.markers = [];
+        //Initialize map object
+        this.map = new google.maps.Map(document.getElementById(mapDiv), mapOptions);
+        // Add our sites markers
+        addSiteMarkers(this, dataDiv);
+    }
+
+    /*
+        Add in each site as a marker, and 
+    */
+    function addSiteMarkers(mapObject, dataDiv) {
+        $.each({!! json_encode($sites) !!}, function(siteIndex, site) {
+            var marker = new google.maps.Marker({
+                position: {"lat": site.lat, "lng": site.lon},
+                map: mapObject.map,
+            });
+            marker.setIcon(site.icon);
+            marker.addListener('click', function() {
+                var str =  "<ul>";
+                $.each(site.zones, function(zoneIndex, zone) {
+                	console.log(zone);
+                	$.each(zone.devices, function(deviceIndex, device) {
+                    	str += "<li class='sensor-" + device.type + "'>" + device.name + ": " + device.data[device.data.length - 1][1] + "</li>";
+                	});
+                });
+                str += "</ul>";
+                $(dataDiv).html(str);
+            });
+        });
+    }
+   </script>
+
 <div class='container dash-container'>
 		<div class='row'>
 		</br></br>
@@ -41,13 +179,19 @@
 							</ul>
 						</div>
 					@endforeach
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">Devices</div>
-        <div class="panel-body">
+	
+		<h3>Site Map</h3>
+		
+		<div class='container map-container'>
+        <div class='row'>
+            <div id='iot-map' class='col-md-6'></div>
+            <div id='iot-map-data' class='col-md-6'></div>
+        </div>
+    </div>
+        <!-- <h3>Greenhouse 1 Devices</h3>
             <div class="form-group">
                 <div class="col-sm-10">
                     <label for="devices">Select a device:</label>
@@ -63,11 +207,8 @@
                 <div class="col-sm-12">
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> -->   
 </div>
-	</div>
 
 	<script>
     $(document).ready(function() {
