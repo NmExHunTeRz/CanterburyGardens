@@ -12,6 +12,7 @@ class MainController extends Controller
 {
     public $sites;
     public $sensors;
+    public $notifications;
 
     /**
      * Our initial index function that gets hit on initial page load
@@ -22,6 +23,8 @@ class MainController extends Controller
 
         $this->sites = [];
         $this->sensors = [];
+        $this->notifications = [];
+
         // Initialize sites and relevant metadata
         $data_sites = $this->getData('sites');
         foreach ($data_sites as $data_site) {
@@ -61,21 +64,18 @@ class MainController extends Controller
                 case 'gas':
                     $device->setTimestamps(collect($data['gas_values'])->pluck(0));
                     $device->setReadings(collect($data['gas_values'])->pluck(1));
-                    $device->setData($data['gas_values']);
                     $device->setScale($data['gas_scale']);
                     $device->setFidelity($fidelity);
                     break;
                 case 'solar':
                     $device->setTimestamps(collect($data['solar_value'])->pluck(0));
                     $device->setReadings(collect($data['solar_value'])->pluck(1));
-                    $device->setData($data['solar_value']);
                     $device->setScale($data['solar_scale']);
                     $device->setFidelity($fidelity);
                     break;
                 case 'hydrometer':
                     $device->setTimestamps(collect($data['moisture_value'])->pluck(0));
                     $device->setReadings(collect($data['moisture_value'])->pluck(1));
-                    $device->setData($data['moisture_value']);
                     $device->setScale($data['moisture_scale']);
                     $device->setFidelity($fidelity);
                     break;
@@ -86,16 +86,13 @@ class MainController extends Controller
                     $device->setSecondaryTimestamps(collect($data['humidity_value'])->pluck(0));
                     $device->setSecondaryReadings(collect($data['humidity_value'])->pluck(1));
 
-                    $device->setData($data['temperature_value']);
                     $device->setScale($data['temp_scale']);
-                    $device->setSecondaryData($data['humidity_value']);
                     $device->setSecondaryScale($data['humidity_scale']);
                     $device->setFidelity($fidelity);
                     break;
                 case 'lumosity':
                     $device->setTimestamps(collect($data['light_value'])->pluck(0));
                     $device->setReadings(collect($data['light_value'])->pluck(1));
-                    $device->setData($data['light_value']);
                     $device->setScale($data['light_scale']);
                     $device->setFidelity($fidelity);
                     break;
@@ -106,19 +103,17 @@ class MainController extends Controller
         return view('index', ['sites' => $this->sites, 'devices' => $devices]);
     }
 
-    public function processTimestamps($results)
-    {
-        $timestamps = collect($results)->pluck(0);
+    // public function processTimestamps($results)
+    // {
+    //     $timestamps = collect($results)->pluck(0);
+    //     return $timestamps;
+    // }
 
-        return $timestamps;
-    }
-
-    public function processReadings($results)
-    {
-        $readings = collect($results)->pluck(1);
-
-        return $readings;
-    }
+    // public function processReadings($results)
+    // {
+    //     $readings = collect($results)->pluck(1);
+    //     return $readings;
+    // }
 
     public function getData($path)
     {

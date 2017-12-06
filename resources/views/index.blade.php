@@ -21,8 +21,9 @@
 					@foreach ($sites as $site)
 						<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#{{$site['id']}}-collapsible'>{{$site['name']}}</button>
 						<div id='{{$site['id']}}-collapsible' class='collapse'>
+							<ul>
 							@foreach ($site['zones'] as $key=>$zone)
-								<ul>{{$key}}
+								<li>{{$key}}<ul>
 									@foreach ($zone['devices'] as $device)
 										<li>{{$device->name}}:
 											@if ($device->notify == false)
@@ -32,8 +33,9 @@
 											@endif
 										</li>
 									@endforeach
-								</ul>
+								</ul></li>
 							@endforeach
+							</ul>
 						</div>
 					@endforeach
 				</div>

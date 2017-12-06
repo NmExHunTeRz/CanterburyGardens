@@ -10,13 +10,11 @@ class Device
     public $last_connection;
     public $fidelity;
 
-    public $data;
     public $timestamps;
     public $secondaryTimestamps;
 
     public $readings;
     public $secondaryReadings;
-    public $secondaryData;
     public $dataScale;
     public $secondaryDataScale;
 
@@ -29,12 +27,10 @@ class Device
         $this->id = $id;
         $this->type = $type;
 
-        $this->data = null;
         $this->timestamps = null;
         $this->secondaryTimestamps = null;
         $this->readings = null;
         $this->secondaryReadings = null;
-        $this->secondaryData = null;
         $this->dataScale = null;
         $this->secondaryDataScale = null;
         $this->notify = false;
@@ -63,10 +59,6 @@ class Device
         return $this->last_connection;
     }
 
-    public function setData($data) {
-        $this->data = $data;
-    }
-
     public function setTimestamps($timestamps)
     {
         $this->timestamps = $timestamps;
@@ -86,10 +78,6 @@ class Device
         $this->secondaryReadings = $secondaryReadings;
     }
 
-    public function setSecondaryData($data) {
-        $this->secondaryData = $data;
-    }
-
     public function setScale($scale) {
         $this->dataScale = $scale;
     }
@@ -100,6 +88,10 @@ class Device
 
     public function setFidelity($value) {
         $this->fidelity = $value;
+    }
+
+    public function processData() {
+        
     }
 
     public function setNotify() {
