@@ -112,12 +112,8 @@ class Device
             $n = sizeof($this->readings) - 20;
 
             for ($i; $i >= $n; $i--) {
-                dump("Reading:");
-                dump($this->readings[$i]);
                 if ($this->readings[$i] !== null) {
                     $tmp = false;
-
-                    dump("Not found null value");
                 }
             }
         }
