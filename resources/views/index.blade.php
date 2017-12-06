@@ -177,7 +177,7 @@
                             @foreach ($site['zones'] as $zone)
                                 <li>{{$zone['name']}}<ul>
                                         @foreach ($zone['devices'] as $device)
-                                            <li>{{$device->name}}:
+                                            <li>{{$device->name}}
                                                 @if ($device->notify == false)
                                                     <i class="text-success fa fa-check fa-lg" aria-hidden="true"></i>
                                                 @else
