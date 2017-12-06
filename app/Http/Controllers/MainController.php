@@ -124,18 +124,6 @@ class MainController extends Controller
 		return view('index', ['sites' => $this->sites, 'devices' => $devices]);
 	}
 
-	// public function processTimestamps($results)
-	// {
-	//     $timestamps = collect($results)->pluck(0);
-	//     return $timestamps;
-	// }
-
-	// public function processReadings($results)
-	// {
-	//     $readings = collect($results)->pluck(1);
-	//     return $readings;
-	// }
-
 	public function getData($path)
 	{
 		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
