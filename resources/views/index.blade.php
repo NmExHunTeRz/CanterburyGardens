@@ -8,13 +8,15 @@
 		console.log(devices);
 	</script>
 
-	<h1 class="page-header">Dashboard</h1>
 	<div class='container dash-container'>
 		<div class='row'>
-			<div class='col-xs-12 col-md-12 col-lg-12 dash-notices'>
+		<h1 class="page-header">Dashboard</h1>
+			<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
 				<h3>Notifications for <span id="date"></span></h3>
 				<ul id='notifications'></ul>
 			</div>
+		</div>
+		<div class="row">
 			<div class='col-xs-12 col-md-12 col-lg-12 dash-status'>
 				<h3>Device statuses</h3>
 				<div id='statuses'>
