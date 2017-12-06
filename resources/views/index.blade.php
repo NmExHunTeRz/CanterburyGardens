@@ -9,46 +9,53 @@
 	</script>
 
 <div class='container dash-container'>
-		<div class='row'>
-		</br></br>
-		<h1 class="page-header">Dashboard</h1>
-			<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
-				<h3>Notifications</h3>
-				<ul id='notifications'></ul>
-			</div>
-		</div>
-        {{-- Notifications --}}
-        <div class="panel-group" id="accordion">
-            @foreach ($sites as $site)
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
-                        </h4>
-                    </div>
-                    <div id="{{$site['id']}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <ul>
-                                @foreach ($site['zones'] as $zone)
-                                    <li>{{$zone['name']}}<ul>
-                                            @foreach ($zone['devices'] as $device)
-                                                <li>{{$device->name}}:
-                                                    @if ($device->notify == false)
-                                                        <i class="text-success fa fa-check fa-lg" aria-hidden="true"></i>
-                                                    @else
-                                                        <i class="text-danger fa fa-cross fa-lg" aria-hidden="true"></i>
-                                                        <span class="sensor_error"></span>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        </ul></li>
-                                @endforeach
-                            </ul>
-                        </div>
+    <div class='row'>
+    </br></br>
+    <h1 class="page-header">Dashboard</h1>
+        <div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
+            <h3>Notifications</h3>
+            <ul id='notifications'></ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-xs-12'>
+            <h3>Overview</h3>
+            <p>Status of all devices based on data received in the last 12 hours and when the last connection was established.</p>
+            <ul id='notifications'></ul>
+        </div>
+    </div>
+    {{-- Device Overview --}}
+    <div class="panel-group" id="accordion">
+        @foreach ($sites as $site)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
+                    </h4>
+                </div>
+                <div id="{{$site['id']}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            @foreach ($site['zones'] as $zone)
+                                <li>{{$zone['name']}}<ul>
+                                        @foreach ($zone['devices'] as $device)
+                                            <li>{{$device->name}}:
+                                                @if ($device->notify == false)
+                                                    <i class="text-success fa fa-check fa-lg" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="text-danger fa fa-cross fa-lg" aria-hidden="true"></i>
+                                                    <span class="sensor_error"></span>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul></li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
+    </div>
     <h3>Devices</h3>
         <div class="panel panel-default">
             <div class="panel-body">
