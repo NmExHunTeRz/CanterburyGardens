@@ -147,61 +147,6 @@
    </script>
 
 <div class='container dash-container'>
-<<<<<<< HEAD
-		<div class='row'>
-		</br></br>
-		<h1 class="page-header">Dashboard</h1>
-			<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
-				<h3>Notifications for <span id="date"></span></h3>
-				<ul id='notifications'></ul>
-			</div>
-		</div>
-		<div class="row">
-			<div class='col-xs-12 col-md-12 col-lg-12 dash-status'>
-				<h3>Device statuses</h3>
-				<div id='statuses'>
-					@foreach ($sites as $site)
-						<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#{{$site['id']}}-collapsible'>{{$site['name']}}</button>
-						<div id='{{$site['id']}}-collapsible' class='collapse'>
-							<ul>
-							@foreach ($site['zones'] as $key=>$zone)
-								<li>{{$key}}<ul>
-									@foreach ($zone['devices'] as $device)
-										<li>{{$device->name}}:
-											@if ($device->notify == false)
-												no
-											@else
-												yes
-											@endif
-										</li>
-									@endforeach
-								</ul></li>
-							@endforeach
-							</ul>
-						</div>
-					@endforeach
-					</div>
-				</div>
-			</div>
-	
-		<h3>Site Map</h3>
-		
-		<div class='container map-container'>
-        <div class='row'>
-            <div id='iot-map' class='col-md-6'></div>
-            <div id='iot-map-data' class='col-md-6'></div>
-        </div>
-    </div>
-        <!-- <h3>Greenhouse 1 Devices</h3>
-            <div class="form-group">
-                <div class="col-sm-10">
-                    <label for="devices">Select a device:</label>
-                    <select class="form-control" id="devices">
-                        @foreach ($devices as $key => $device)
-                            <option value="{{$key}}">{{$device->name}} ({{$device->id}})</option>
-                        @endforeach
-                    </select>
-=======
     <div class='row'>
     </br></br>
     <h1 class="page-header">Dashboard</h1>
@@ -225,7 +170,6 @@
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
                     </h4>
->>>>>>> 887ac19b669ea59a70259ba6f917f7495fa3bb3b
                 </div>
                 <div id="{{$site['id']}}" class="panel-collapse collapse">
                     <div class="panel-body">
@@ -254,6 +198,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group">
+					
                     <div class="col-sm-10">
                         <label for="devices">Select a device:</label>
                         <select class="form-control" id="devices">
@@ -269,21 +214,12 @@
                         <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
                 </div>
-<<<<<<< HEAD
-            </div> -->   
-</div>
-
-	<script>
-    $(document).ready(function() {
-        var chart = null;
-=======
             </div>
         </div>
 </div>
 <script>
 $(document).ready(function() {
     var chart = null;
->>>>>>> 887ac19b669ea59a70259ba6f917f7495fa3bb3b
 
     $("#view_device").click(function() {
         if (chart) // If we have an existing chart then we need to destroy it before generating a new one
