@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="page-header">Dashboard</h1>
-        <div class="jumbotron">
-          <h3>Daily Notices for
-            <span id="date"></span>
-          </h3>
-          <p><script>
-              console.log({!! json_encode($sites) !!});
-          </script></p>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @foreach ($devices as $device)
-                    <div class="col-sm-2">
-                        <div class="panel panel-default" style="text-align: center">
-                            <div class="panel-body">
-                                <p>{{$device->name}}</p>
-                                <i class="fa fa-check text-success fa-2x" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+	<script type='text/javascript'>
+		window.sites = {!! json_encode($sites) !!};
+		console.log(sites);
+		window.sites = {!! json_encode($devices) !!};
+		console.log(devices);
 
-          <div class="col-sm-8 map">
-            Huy's map will go here
-          </div>
-          <div class="col-sm-4 weather">
-          </div>
-        </div>
+		$.foreach(window.sites, function(siteIndex, site) {
+
+		});
+	</script>
+
+
+	<h1 class="page-header">Dashboard</h1>
+	<div class='container dash-container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
+				<h3>Notifications for <span id="date"></span></h3>
+				<ul id='notifications'></ul>
+			</div>
+			<div class='col-xs-12 col-md-6 col-lg-6 dash-status'>
+				<h3>Device statuses</h3>
+				<div id='statuses'>
+					<ul>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection

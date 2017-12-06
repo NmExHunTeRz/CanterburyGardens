@@ -11,12 +11,15 @@
     <title>Canterbury Gardens</title>
 
     <!-- Styles -->
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://bootswatch.com/3/cosmo/bootstrap.css">
+
+    <!-- JS -->
     <script src="https://use.fontawesome.com/0363e80ff7.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 
 <body>

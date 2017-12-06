@@ -8,22 +8,27 @@ class Device
     public $id;
     public $type;
     public $last_connection;
+    public $fidelity;
 
     public $data;
     public $timestamps;
     public $secondaryTimestamps;
+
     public $readings;
     public $secondaryReadings;
     public $secondaryData;
     public $dataScale;
     public $secondaryDataScale;
 
+    // If this is set to true, the device is encountering problems and needs to be checked.
+    public $notify;
+
     public function __construct($name, $id, $type, $last_connection)
     {
         $this->name = $name;
         $this->id = $id;
         $this->type = $type;
-        $this->last_connection = $last_connection;
+
         $this->data = null;
         $this->timestamps = null;
         $this->secondaryTimestamps = null;
@@ -32,6 +37,14 @@ class Device
         $this->secondaryData = null;
         $this->dataScale = null;
         $this->secondaryDataScale = null;
+        $this->notify = false;
+        $this->fidelity = null;
+
+        $str = str_replace("T", " ", $last_connection);
+        $str = substr($str, 0, 19);
+        $this->last_connection = $str;
+
+        // $this->setNotify();
     }
 
     public function getName() {
@@ -83,5 +96,26 @@ class Device
 
     public function setSecondaryScale($scale) {
         $this->secondaryDataScale = $scale;
+    }
+
+    public function setFidelity($value) {
+        $this->fidelity = $value;
+    }
+
+    public function setNotify() {
+        // See if the device has connected in the last 12 hours
+        $last_connection = strtotime($this->last_connection);
+        $current_time = time();
+        if (($current_time - $last_connection) > 43200)
+            $this->notify = true;
+        // See if the data from the last 100 readings were all null
+        else {
+            // $i = sizeof($this->readings);
+            $tmp = true;
+            for ($i = sizeof($this->readings); $i > ($i-100); $i--) {
+                if (!empty($this->readings[$i])) $tmp = false;
+            }
+        }
+        $this->notify = $tmp;
     }
 }
