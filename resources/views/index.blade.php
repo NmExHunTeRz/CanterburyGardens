@@ -193,7 +193,17 @@
                 </div>
             </div>
         @endforeach
+	</div>
+	
+	<h3>Site Map</h3>
+
+	<div class='container map-container'>
+        <div class='row'>
+            <div id='iot-map' class='col-md-6'></div>
+            <div id='iot-map-data' class='col-md-6'></div>
+        </div>
     </div>
+
     <h3>Devices</h3>
         <div class="panel panel-default">
             <div class="panel-body">
