@@ -7,6 +7,7 @@ class Device
 	public $name;
 	public $id;
 	public $type;
+	public $site_id;
 	public $last_connection;
 	public $fidelity;
 
@@ -23,11 +24,12 @@ class Device
 	// If this is set to true, the device is encountering problems and needs to be checked.
 	public $notify;
 
-	public function __construct($name, $id, $type, $last_connection)
+	public function __construct($name, $id, $type, $last_connection, $site_id)
 	{
 		$this->name = $name;
 		$this->id = $id;
 		$this->type = $type;
+		$this->site_id = $site_id;
 
 		$this->timestamps = null;
 		$this->secondaryTimestamps = null;
@@ -55,6 +57,11 @@ class Device
 
 	public function getType() {
 		return $this->type;
+	}
+
+    public function getSiteID()
+    {
+        return $this->site_id;
 	}
 
 	public function getLastConnection() {
