@@ -85,8 +85,8 @@
 							<a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
 						</h4>
 					</div>
-					<div id="{{$site['id']}}" class="panel-collapse collapse">
-						<div class="panel-body">
+					<div id="{{$site['id']}}" class="panel-collapse collapse panel-body">
+						<!-- <div class="panel-body"> -->
 							<ul>
 								@foreach ($site['zones'] as $zone)
 									<li>{{$zone['name']}}<ul>
@@ -100,12 +100,18 @@
 										</ul></li>
 								@endforeach
 							</ul>
-						</div>
+						<!-- </div> -->
 					</div>
 				</div>
 				@endforeach
 			</div>
 		</div>
+		<script>
+			$accordions = $('#accordion').children().each(function(i) {
+				$(this)
+			});
+			console.log($accordions)
+		</script>
 		<div class="col-xs-12 col-md-6 col-lg-6 weather">
 		<h3>Weather</h3>
 			<div class="container weather-container">
@@ -115,7 +121,7 @@
 		</div>
 		<!-- Overview colouring script -->
 		<script>
-
+			$accordion = $('#accordion');
 		</script>
 	</div>
 	<hr>

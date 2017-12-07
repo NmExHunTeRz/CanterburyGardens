@@ -70,7 +70,14 @@ class Device
 
 	public function setTimestamps($timestamps)
 	{
-		$this->timestamps = $timestamps;
+		$tmp = [];
+		foreach($timestamps as $timestamp) {
+			$str = str_replace("T", " ", $timestamp);
+			$str = substr($str, 0, 19);
+			// dd($str);
+			array_push($tmp, $str);
+		}
+		$this->timestamps = $tmp;
 	}
 
 	public function setSecondaryTimestamps($secondaryTimestamps)
