@@ -1,5 +1,4 @@
 /* Main Structure */
-
 body {
 	padding-top: 50px;
 }
@@ -11,6 +10,7 @@ body {
 /
 .navbar-fixed-top {
 	border: 0;
+	background-color: #0F084B;
 }
 
 /* Sidebar */

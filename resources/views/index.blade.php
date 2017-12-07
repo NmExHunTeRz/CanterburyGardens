@@ -220,8 +220,4 @@ $(document).ready(function() {
 	}
 });
 </script>
-<!-- Google Maps API -->
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAldSd8XQP3VPXbcOQ4smOrpH-rBy3r7O8&callback=initMap">
-</script>
 @endsection
