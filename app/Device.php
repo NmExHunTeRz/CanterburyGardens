@@ -185,16 +185,18 @@ class Device
 		// See if the device has connected in the last 12 hours
 		$last_connection = strtotime($this->last_connection);
 		$current_time = time();
-		$tmp = true;
-		if (($current_time - $last_connection) > 43200) {} //nothing to do here
+		$tmp = false;
+		if (($current_time - $last_connection) > 43200) $tmp = true;
 		// See if the data from the last 100 readings were all null
 		else {
 			$i = sizeof($this->readings) - 1;
-			$n = sizeof($this->readings) - 100;
+			$n = sizeof($this->readings) - 20;
 
 			for ($i; $i >= $n; $i--) {
-				if ($this->readings[$i] !== null) {
-					$tmp = false;
+				if ($this->readings[$i] === null) {
+				} else {
+					$tmp = true;
+					break;
 				}
 			}
 		}
