@@ -49,7 +49,7 @@ class MainController extends Controller
 		foreach ($types as $key => $type) {
 			foreach ($type as $sensor) {
 				$data = $this->getData("device/$sensor");
-				$device = new Device($data['name'], $data['id'], $key, $data['last_connection']);
+				$device = new Device($data['name'], $data['id'], $key, $data['last_connection'], $data['site_id']);
 				array_push($this->sites[$data['site_id']]['zones'][$data['zone_id']]['devices'], $device);
 				array_push($this->sensors, $device);
 			}
@@ -119,9 +119,12 @@ class MainController extends Controller
 					break;
 			}
 		}
+		
 		$devices = collect($this->sensors)->keyBy('id');
+        $conditions = Condition::all()->keyBy('site_id');
+		$this->processNotification($devices, $conditions);
 
-		return view('index', ['sites' => $this->sites, 'devices' => $devices]);
+		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions]);
 	}
 
 	public function getData($path)
@@ -133,8 +136,31 @@ class MainController extends Controller
 		return $this->getData("device/$sensorID/$rate");
 	}
 
-    public function addNotification() // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
+    public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
     {
-        Condition::all();
+        $notifications = [];
+
+
+        // Implement frontend for customising DB values for conditions
+        foreach ($devices as $device) {
+            switch ($device->site_id) {
+                case 'gh1':
+                    if ($device->type == 'tempHumid') {
+                        foreach ($device->readings as $reading) {
+                            if ($reading < $conditions['gh1']->low_temp || $reading > $conditions['gh1']->high_temp) {
+                                dump($reading);
+                                dump("GH1 is out of optimal conditions");
+
+                                break;
+                            }
+                        }
+                    }
+                    //- Between 7°C and 29°C and in Winter between 8°C and 10°C
+
+
+                break;
+            }
+        }
+        dd($devices);
 	}
 }
