@@ -112,15 +112,15 @@
 				</div>
 				<div class="collapse navbar-collapse" id="app-navbar-collapse">
 					{{--Left Side Of Navbar--}}
-					<ul class="nav navbar-nav">
-						<li><a href="./locations/gh1.html">Greenhouse 1</a></li>
-						<li><a href="./locations/gh2.html">Greenhouse 2</a></li>
-						<li><a href="./locations/gh3.html">Greenhouse 3</a></li>
-						<li><a href="./locations/outdoors.html">Outdoor Plots</a></li>
-						<li><a href="./locations/muck.html">Muck Heap</a></li>
-						<li><a href="./locations/store.html">Store Room</a></li>
-						<li><a href="./locations/solar.html">Solar Plant</a></li>
-					</ul>
+					{{--<ul class="nav navbar-nav">--}}
+						{{--<li><a href="./locations/gh1.html">Greenhouse 1</a></li>--}}
+						{{--<li><a href="./locations/gh2.html">Greenhouse 2</a></li>--}}
+						{{--<li><a href="./locations/gh3.html">Greenhouse 3</a></li>--}}
+						{{--<li><a href="./locations/outdoors.html">Outdoor Plots</a></li>--}}
+						{{--<li><a href="./locations/muck.html">Muck Heap</a></li>--}}
+						{{--<li><a href="./locations/store.html">Store Room</a></li>--}}
+						{{--<li><a href="./locations/solar.html">Solar Plant</a></li>--}}
+					{{--</ul>--}}
 					{{--Right Side Of Navbar--}}
 					<ul class="nav navbar-nav navbar-right">
 						@guest

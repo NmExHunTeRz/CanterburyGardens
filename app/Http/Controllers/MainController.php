@@ -67,8 +67,8 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['gas_scale']);
 					$device->setFidelity($fidelity);
+					$device->setNotify();
 					$device->processData();
-                    $device->setNotify();
                     break;
 				case 'solar':
 					$timestamps = array_slice(collect($data['solar_value'])->pluck(0)->toArray(), count($data['solar_value']) - 400);
@@ -77,8 +77,8 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['solar_scale']);
 					$device->setFidelity($fidelity);
+					$device->setNotify();
 					$device->processData();
-                    $device->setNotify();
 					break;
 				case 'hydrometer':
 					$timestamps = array_slice(collect($data['moisture_value'])->pluck(0)->toArray(), count($data['moisture_value']) - 400);
@@ -87,8 +87,8 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['moisture_scale']);
 					$device->setFidelity($fidelity);
+					$device->setNotify();
 					$device->processData();
-                    $device->setNotify();
 					break;
 				case 'tempHumid':
 					$timestamps = array_slice(collect($data['temperature_value'])->pluck(0)->toArray(), count($data['temperature_value']) - 400);
@@ -104,8 +104,8 @@ class MainController extends Controller
 					$device->setScale($data['temp_scale']);
 					$device->setSecondaryScale($data['humidity_scale']);
 					$device->setFidelity($fidelity);
+					$device->setNotify();
 					$device->processData();
-                    $device->setNotify();
 					break;
 				case 'lumosity':
 					$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - 1000);
@@ -114,8 +114,8 @@ class MainController extends Controller
 					$device->setReadings($readings);
 					$device->setScale($data['light_scale']);
 					$device->setFidelity($fidelity);
+					$device->setNotify();
 					$device->processData();
-                    $device->setNotify();
 					break;
 			}
 		}
@@ -131,5 +131,10 @@ class MainController extends Controller
 
 	public function refreshRawSensorData($sensorID, $rate) {
 		return $this->getData("device/$sensorID/$rate");
+	}
+
+    public function addNotification() // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
+    {
+        Condition::all();
 	}
 }
