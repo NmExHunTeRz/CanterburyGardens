@@ -120,7 +120,7 @@
 			});
 			// console.log($accordions)
 		</script>
-		<div class="col-xs-12 col-md-6 col-lg-6 weather">
+		<div class="col-xs-12 col-md-12 col-lg-6 weather">
 		<h3>Weather</h3>
 			<div class="container weather-container">
 				<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
