@@ -15,6 +15,12 @@ class MainController extends Controller
 	public $sensors;
 	public $notifications;
 
+    public function huy()
+    {
+        dump('huy');
+        return view('huy');
+	}
+
 	/**
 	 * Our initial index function that gets hit on initial page load
 	 */
