@@ -109,8 +109,6 @@
 		<div class="col-xs-12 col-md-6 col-lg-6 weather">
 		<h3>Weather</h3>
 			<div class="container weather-container">
-				<!-- <script type="text/javascript"> moWWidgetParams="moAllowUserLocation:false~moBackgroundColour:white~moColourScheme:blue~moDays:7~moDomain:www.metoffice.gov.uk~moFSSI:322089~moListStyle:vertical~moMapDisplay:none~moShowFeelsLike:true~moShowUV:true~moShowWind:true~moSpeedUnits:M~moStartupLanguage:en~moTemperatureUnits:C~moTextColour:black~moGridParams:weather,temperature,warnings,pop~"; </script><script type="text/javascript" src="https://www.metoffice.gov.uk/public/pws/components/yoursite/loader.js"> </script> -->
-				<!-- Weather widget taken from the MET office api and weather widget plugin -->
 				<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
 				<!-- Weather widget taken from whateverweather.com -->
 			</div>
