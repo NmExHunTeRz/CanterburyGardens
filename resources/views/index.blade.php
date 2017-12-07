@@ -115,7 +115,7 @@
 		</div>
 		<!-- Overview colouring script -->
 		<script>
-
+			$accordion = $('#accordion');
 		</script>
 	</div>
 	<hr>
