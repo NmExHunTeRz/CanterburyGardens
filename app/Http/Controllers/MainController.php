@@ -132,4 +132,9 @@ class MainController extends Controller
 	public function refreshRawSensorData($sensorID, $rate) {
 		return $this->getData("device/$sensorID/$rate");
 	}
+
+    public function addNotification() // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
+    {
+        Condition::all();
+	}
 }

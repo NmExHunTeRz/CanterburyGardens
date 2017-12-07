@@ -36,7 +36,7 @@
 	}
 
 	/*
-		Add in each site as a marker, and 
+		Add in each site as a marker, and
 	*/
 	function addSiteMarkers(mapObject, dataDiv) {
 		$.each(window.sites, function(siteIndex, site) {
