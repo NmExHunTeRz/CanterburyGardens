@@ -108,9 +108,17 @@
 		</div>
 		<script>
 			$accordions = $('#accordion').children().each(function(i) {
-				$(this)
+				var problem = false;
+				// console.log($(this).children('.panel-body').children('ul').find('li ul li'));
+				$(this).children('.panel-body').children('ul').find('li ul li').each(function(index) {
+					if ($(this).hasClass('text-danger')) problem = true;
+				});
+				if (!problem)
+					$(this).children('.panel-heading').addClass('accordion-title-success');
+				else 
+					$(this).children('.panel-heading').addClass('accordion-title-danger');
 			});
-			console.log($accordions)
+			// console.log($accordions)
 		</script>
 		<div class="col-xs-12 col-md-6 col-lg-6 weather">
 		<h3>Weather</h3>
