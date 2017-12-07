@@ -140,27 +140,34 @@ class MainController extends Controller
     {
         $notifications = [];
 
-
         // Implement frontend for customising DB values for conditions
         foreach ($devices as $device) {
-            switch ($device->site_id) {
-                case 'gh1':
-                    if ($device->type == 'tempHumid') {
-                        foreach ($device->readings as $reading) {
-                            if ($reading < $conditions['gh1']->low_temp || $reading > $conditions['gh1']->high_temp) {
-                                dump($reading);
-                                dump("GH1 is out of optimal conditions");
-
-                                break;
-                            }
+            if ($device->type == 'tempHumid') {
+                foreach ($device->readings as $reading) {
+                    if ($device->site_id) {
+//                        dump("handle shed and muck_heap");
+                    } else {
+                        if ($reading < $conditions[$device->site_id]->low_temp || $reading > $conditions[$device->site_id]->high_temp) {
+                            $notifications[$device->site_id]['temp'] = "Out of optimal temperature conditions ({$conditions[$device->site_id]->low_temp}°C - {$conditions[$device->site_id]->high_temp}°C)";
+                            break;
                         }
                     }
-                    //- Between 7°C and 29°C and in Winter between 8°C and 10°C
-
-
-                break;
+                }
             }
+//            switch ($device->site_id) {
+//                case 'gh1':
+//                    if ($device->type == 'tempHumid') {
+//                        foreach ($device->readings as $reading) {
+//                            if ($reading < $conditions['gh1']->low_temp || $reading > $conditions['gh1']->high_temp) {
+//                                $notifications[$device->site_id]['temp'] = "Out of optimal temperature conditions ({$conditions['gh1']->low_temp}°C - {$conditions['gh1']->high_temp}°C)";
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    //- Between 7°C and 29°C and in Winter between 8°C and 10°C
+//                break;
+//            }
         }
-        dd($devices);
+//        dd($notifications);
 	}
 }
