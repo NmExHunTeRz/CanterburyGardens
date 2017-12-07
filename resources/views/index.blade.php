@@ -117,6 +117,7 @@
 			<div class="container weather-container">
 				<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
 				<!-- Weather widget taken from whateverweather.com -->
+                <a href="https: //www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg"><h4>MET Office Weather Forecast</h4><a>
 			</div>
 		</div>
 		<!-- Overview colouring script -->
