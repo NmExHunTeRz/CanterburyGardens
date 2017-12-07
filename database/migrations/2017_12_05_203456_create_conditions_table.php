@@ -16,17 +16,18 @@ class CreateConditionsTable extends Migration
         Schema::create('conditions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('site_id');
-            $table->float('high_humidity', 10,3)->nullable();
-            $table->float('low_humidity', 10,3)->nullable();
-            $table->float('high_moisture', 10,3)->nullable();
-            $table->float('low_moisture', 10,3)->nullable();
-            $table->float('high_lux', 10,3)->nullable();
-            $table->float('low_lux', 10,3)->nullable();
-            $table->float('gas', 10,3)->nullable();
-            $table->float('high_temp', 10,3)->nullable();
-            $table->float('low_temp', 10,3)->nullable();
-            $table->float('winter_high_temp', 10,3)->nullable();
-            $table->float('winter_low_temp', 10,3)->nullable();
+            $table->integer('high_humidity')->nullable();
+            $table->integer('low_humidity')->nullable();
+            $table->integer('high_moisture')->nullable();
+            $table->integer('low_moisture')->nullable();
+            $table->integer('high_lux')->nullable();
+            $table->integer('low_lux')->nullable();
+            $table->integer('high_gas')->nullable();
+            $table->integer('low_gas')->nullable();
+            $table->integer('high_temp')->nullable();
+            $table->integer('low_temp')->nullable();
+            $table->integer('winter_high_temp')->nullable();
+            $table->integer('winter_low_temp')->nullable();
             $table->timestamps();
         });
     }

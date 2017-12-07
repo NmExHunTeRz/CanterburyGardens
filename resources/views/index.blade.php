@@ -66,14 +66,31 @@
 	<div class='row'>
 		<h1 class="page-header">Dashboard</h1>
 		<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
-			<h3>Notifications</h3>
-			<p>Recommended actions based on data from the past 24 hours</p>
+			<h3>Alerts</h3>
+			<p>Devices that need action as they are not in the optimum condition requirements.</p>
 			<ul id='notifications'></ul>
 			<div class="container">
-				<p class="text-primary"><i class="fa fa-info-circle" aria-hidden="true"></i>  {{\Carbon\Carbon::now()->format('H:i - d/m/y')}}: Root Crops need watering.</p>
-				<p class="text-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  {{\Carbon\Carbon::now()->format('H:i - d/m/y')}}: Greenhouse 3 is too cold.</p>
+				@foreach ($notifications as $notification)
+					@foreach ($notification as $type => $alert)
+						@if ($type == 'gas')
+							<p class="text-danger"><img src="/img/gasmask-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
+						@endif
+						@if ($type == 'moisture')
+							<p class="text-primary"><img src="/img/moisture-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
+						@endif
+						@if ($type == 'temp')
+							<p class="text-primary"><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
+						@endif
+						@if ($type == 'humidity')
+							<p class="text-primary"><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
+						@endif
+						@if ($type == 'lux')
+							<p class="text-primary"><img src="/img/sunny-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
+						@endif
+					@endforeach
+				@endforeach
 			</div>
-			<h3>Overview</h3>
+			<h3>Device Statuses</h3>
 			<p>Status of all devices based on data received in the last 12 hours and when the last connection was established.</p>
 			<ul id='notifications'></ul>
 			{{-- Device Overview --}}

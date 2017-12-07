@@ -6,6 +6,7 @@ set_time_limit(60);
 
 use App\Condition;
 use App\Device;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -122,9 +123,8 @@ class MainController extends Controller
 		
 		$devices = collect($this->sensors)->keyBy('id');
         $conditions = Condition::all()->keyBy('site_id');
-		$this->processNotification($devices, $conditions);
 
-		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions]);
+		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->processNotification($devices, $conditions)]);
 	}
 
 	public function getData($path)
@@ -139,35 +139,89 @@ class MainController extends Controller
     public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
     {
         $notifications = [];
+        $condition_site_id = null;
+        $winter_months = [12, 1, 2];
+        $current_month = Carbon::now()->format('m');
+
+        if (in_array($current_month, $winter_months)) {
+            $winter = true;
+        } else {
+            $winter = false;
+        }
 
         // Implement frontend for customising DB values for conditions
         foreach ($devices as $device) {
+            if ($device->id == 'outside_field_temp') { // Root Crop
+                $condition_site_id = 'field';
+            } else if ($device->id == 'outside_heap_temp') { // Heap
+                $condition_site_id = 'muck_heap';
+            } else if ($device->site_id == "house") { // Store Room
+                $condition_site_id = 'shed';
+            } else if (isset($conditions[$device->site_id])) {
+                $condition_site_id = $device->site_id;
+            }
+
             if ($device->type == 'tempHumid') {
                 foreach ($device->readings as $reading) {
-                    if ($device->site_id) {
-//                        dump("handle shed and muck_heap");
-                    } else {
-                        if ($reading < $conditions[$device->site_id]->low_temp || $reading > $conditions[$device->site_id]->high_temp) {
-                            $notifications[$device->site_id]['temp'] = "Out of optimal temperature conditions ({$conditions[$device->site_id]->low_temp}°C - {$conditions[$device->site_id]->high_temp}°C)";
+                    if ($condition_site_id) {
+                        if ($conditions[$condition_site_id]->winter_low_temp && $conditions[$condition_site_id]->winter_high_temp && $reading && $winter) { // Check to see if all conditions are set
+                            if ($reading < $conditions[$condition_site_id]->low_temp || $reading > $conditions[$condition_site_id]->high_temp) { // Check reading against condition
+                                $notifications[$condition_site_id]['temp'] = "[$condition_site_id] Reading is {$reading}°C and the optimal winter range is {$conditions[$condition_site_id]->winter_low_temp}°C - {$conditions[$condition_site_id]->winter_high_temp}°C";
+                                break;
+                            }
+                        } else if ($conditions[$condition_site_id]->low_temp && $conditions[$condition_site_id]->high_temp && $reading) { // Check to see if all conditions are set
+                            if ($reading < $conditions[$condition_site_id]->low_temp || $reading > $conditions[$condition_site_id]->high_temp) { // Check reading against condition
+                                $notifications[$condition_site_id]['temp'] = "[$condition_site_id] Reading is {$reading}°C and the optimal range is {$conditions[$condition_site_id]->low_temp}°C - {$conditions[$condition_site_id]->high_temp}°C";
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                foreach ($device->secondaryReadings as $secondaryReading) {
+                    if ($conditions[$condition_site_id]->low_humidity && $conditions[$condition_site_id]->high_humidity && $secondaryReading) { // Check to see if all conditions are set
+                        if ($secondaryReading < $conditions[$condition_site_id]->low_humidity || $secondaryReading > $conditions[$condition_site_id]->high_humidity) { // Check reading against condition
+                            $notifications[$condition_site_id]['humidity'] = "[$condition_site_id] Reading is {$secondaryReading}% and the optimal range is {$conditions[$condition_site_id]->low_humidity}% - {$conditions[$condition_site_id]->high_humidity}%";
                             break;
                         }
                     }
                 }
+            } else if ($device->type == 'lumosity') {
+                foreach ($device->readings as $reading) {
+                    if ($condition_site_id) {
+                        if ($conditions[$condition_site_id]->low_lux && $conditions[$condition_site_id]->high_lux && $reading) { // Check to see if all conditions are set
+                            if ($reading < $conditions[$condition_site_id]->low_lux || $reading > $conditions[$condition_site_id]->high_lux) { // Check reading against condition
+                                $notifications[$condition_site_id]['lux'] = "[$condition_site_id] Reading is ".round($reading)."lux and the optimal range is {$conditions[$condition_site_id]->low_lux}lux - {$conditions[$condition_site_id]->high_lux}lux";
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else if ($device->type == 'hydrometer') {
+                foreach ($device->readings as $reading) {
+                    if ($condition_site_id) {
+                        if ($conditions[$condition_site_id]->low_moisture && $conditions[$condition_site_id]->high_moisture && $reading) { // Check to see if all conditions are set
+                            if ($reading < $conditions[$condition_site_id]->low_moisture || $reading > $conditions[$condition_site_id]->high_moisture) { // Check reading against condition
+                                $notifications[$condition_site_id]['moisture'] = "[$condition_site_id] Reading is ".round($reading)."%vwc and the optimal range is {$conditions[$condition_site_id]->low_moisture}%vwc - {$conditions[$condition_site_id]->high_moisture}%vwc";
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else if ($device->type == 'gas') {
+                foreach ($device->readings as $reading) {
+                    if ($condition_site_id) {
+                        if ($conditions[$condition_site_id]->low_gas && $conditions[$condition_site_id]->high_gas && $reading) { // Check to see if all conditions are set
+                            if ($reading > $conditions[$condition_site_id]->low_gas && $reading < $conditions[$condition_site_id]->high_gas) { // Check reading against condition
+                                $notifications[$condition_site_id]['gas'] = "[$condition_site_id] Warning! Carbon monoxide level is {$reading}ppm and the danger range is {$conditions[$condition_site_id]->low_gas}ppm - {$conditions[$condition_site_id]->high_gas}ppm";
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-//            switch ($device->site_id) {
-//                case 'gh1':
-//                    if ($device->type == 'tempHumid') {
-//                        foreach ($device->readings as $reading) {
-//                            if ($reading < $conditions['gh1']->low_temp || $reading > $conditions['gh1']->high_temp) {
-//                                $notifications[$device->site_id]['temp'] = "Out of optimal temperature conditions ({$conditions['gh1']->low_temp}°C - {$conditions['gh1']->high_temp}°C)";
-//                                break;
-//                            }
-//                        }
-//                    }
-//                    //- Between 7°C and 29°C and in Winter between 8°C and 10°C
-//                break;
-//            }
         }
-//        dd($notifications);
+
+        return $notifications;
 	}
 }
