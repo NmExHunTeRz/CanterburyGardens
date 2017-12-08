@@ -71,45 +71,61 @@
 	<div class='row'>
 		<div class='col-xs-12 col-md-6 col-lg-6 dash-notices no-pad'>
 			<h3 class='dash-title'>Alerts</h3>
-			<p>Devices that need action as they are not in the optimum condition requirements.</p>
-			<ul id='notifications'></ul>
-			<div class="container">
-				@foreach ($notifications as $notification)
-					@foreach ($notification as $type => $alert)
-						@if ($type == 'gas')
-							<p class="text-danger"><img src="/img/gasmask-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
-						@endif
-						@if ($type == 'moisture')
-							<p class="text-primary"><img src="/img/moisture-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
-						@endif
-						@if ($type == 'temp')
-							<p class="text-primary"><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
-						@endif
-						@if ($type == 'humidity')
-							<p class="text-primary"><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
-						@endif
-						@if ($type == 'lux')
-							<p class="text-primary"><img src="/img/sunny-icon.png" width="25" height="25" alt="gas_sensor"> {{$alert}}</p>
-						@endif
-					@endforeach
-				@endforeach
+
+			<ul class="nav nav-tabs">
+    			<li class="active"><a data-toggle="tab" href="#notifications-overview">Overview</a></li>
+    			<li><a data-toggle="tab" href="#notifications-recent">Most Recent</a></li>
+    		</ul>
+
+			<div class='col-xs-12 col-md-12 col-lg-11 tab-content'>
+				<div id='notifications-overview' class="tab-pane fade in active">
+					<p>Devices that need action as they are not in the optimum condition requirements.</p>
+					<ul id='notifications'></ul>
+					<div class="notifications-container col-xs-12">
+						@foreach ($notifications as $notification)
+							@foreach ($notification as $type => $alert)
+								@php
+									$arr = explode('|', $alert);
+								@endphp
+								@if ($type == 'gas')
+									<div class='col-xs-12 notification-item'><img src="/img/gasmask-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-danger">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'moisture')
+									<div class='col-xs-12 notification-item'><img src="/img/moisture-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'temp')
+								<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'humidity')
+									<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'lux')
+									<div class='col-xs-12 notification-item'><img src="/img/sunny-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+							@endforeach
+						@endforeach
+					</div>
+				</div>
+				<div id='notifications-recent' class="tab-pane fade">
+					<!-- TODO: recent notifications go here, in same format as notifications-overview div above -->
+				</div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-md-12 col-lg-6 dash-statuses no-pad">
 			<h3 class='dash-title'>Device Statuses</h3>
-			<p>Status of all devices based on data received in the last 12 hours and when the last connection was established.</p>
-			<ul id='notifications'></ul>
-			{{-- Device Overview --}}
-			<div class="panel-group" id="accordion">
-				@foreach ($sites as $site)
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
-						</h4>
-					</div>
-					<div id="{{$site['id']}}" class="panel-collapse collapse panel-body">
-						<!-- <div class="panel-body"> -->
+			<div class='col-xs-12 col-md-12 col-lg-11'>
+				<p>Status of all devices based on data received in the last 12 hours and when the last connection was established.</p>
+				<ul id='notifications'></ul>
+				{{-- Device Overview --}}
+				<div class="panel-group" id="accordion">
+					@foreach ($sites as $site)
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#{{$site['id']}}">{{$site['name']}}</a>
+							</h4>
+						</div>
+						<div id="{{$site['id']}}" class="panel-collapse collapse panel-body">
 							<ul>
 								@foreach ($site['zones'] as $zone)
 									<li>{{$zone['name']}}<ul>
@@ -123,10 +139,10 @@
 										</ul></li>
 								@endforeach
 							</ul>
-						<!-- </div> -->
+						</div>
 					</div>
+					@endforeach
 				</div>
-				@endforeach
 			</div>
 		</div>
 		<script>

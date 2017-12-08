@@ -14,11 +14,12 @@ class MainController extends Controller
 	public $sites = [];
 	public $sensors = [];
 	public $notifications = [];
+	public $notifications_last = [];
 
-    public function huy()
-    {
-        dd($sites);
-        return view('huy');
+	public function huy()
+	{
+		dd($sites);
+		return view('huy');
 	}
 
 	/**
@@ -31,9 +32,11 @@ class MainController extends Controller
 		$this->initData('minute', 750);
 		
 		$devices = collect($this->sensors)->keyBy('id');
-        $conditions = Condition::all()->keyBy('site_id');
+		$conditions = Condition::all()->keyBy('site_id');
 
-		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->processNotification($devices, $conditions)]);
+		$this->processNotification($devices, $conditions);
+
+		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->notifications, 'notifications_last' => $this->notifications_last]);
 	}
 
 	/**
@@ -90,7 +93,7 @@ class MainController extends Controller
 					$device->setFidelity($fidelity);
 					$device->setNotify();
 					$device->processData();
-                    break;
+					break;
 				case 'solar':
 					if ($data_length === null) {
 						$timestamps = collect($data['solar_value'])->pluck(0)->toArray();
@@ -166,92 +169,145 @@ class MainController extends Controller
 	 *	Generate notification messages to pass to view. only used on dashboard view.
 	 */
 	public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
-    {
-        $notifications = [];
-        $condition_site_id = null;
-        $winter_months = [12, 1, 2];
-        $current_month = Carbon::now()->format('m');
+	{
+		$tmp_notifications = [];
+		$tmp_notifications_last = [];
+		$condition_site_id = null;
+		$winter_months = [12, 1, 2];
+		$current_month = Carbon::now()->format('m');
 
-        if (in_array($current_month, $winter_months)) {
-            $winter = true;
-        } else {
-            $winter = false;
-        }
+		if (in_array($current_month, $winter_months)) {
+			$winter = true;
+		} else {
+			$winter = false;
+		}
 
-        // Implement frontend for customising DB values for conditions
-        foreach ($devices as $device) {
-            if ($device->id == 'outside_field_temp') { // Root Crop
-                $condition_site_id = 'field';
-            } else if ($device->id == 'outside_heap_temp') { // Heap
-                $condition_site_id = 'heap';
-            } else if ($device->site_id == "house") { // Store Room
-                $condition_site_id = 'shed';
-            } else if (isset($conditions[$device->site_id])) {
-                $condition_site_id = $device->site_id;
-            }
+		// Implement frontend for customising DB values for conditions
+		foreach ($devices as $device) {
+			if ($device->id == 'outside_field_temp') { // Root Crop
+				$condition_site_id = 'field';
+			} else if ($device->id == 'outside_heap_temp') { // Heap
+				$condition_site_id = 'heap';
+			} else if ($device->site_id == "house") { // Store Room
+				$condition_site_id = 'shed';
+			} else if (isset($conditions[$device->site_id])) {
+				$condition_site_id = $device->site_id;
+			}
 
-            if ($device->type == 'tempHumid') {
-                foreach ($device->readings as $reading) {
-                    if ($condition_site_id) {
-                        if ($conditions[$condition_site_id]->winter_low_temp && $conditions[$condition_site_id]->winter_high_temp && $reading && $winter) { // Check to see if all conditions are set
-                            if ($reading < $conditions[$condition_site_id]->low_temp || $reading > $conditions[$condition_site_id]->high_temp) { // Check reading against condition
-                                $notifications[$condition_site_id]['temp'] = "[$condition_site_id] Reading is {$reading}°C and the optimal winter range is {$conditions[$condition_site_id]->winter_low_temp}°C - {$conditions[$condition_site_id]->winter_high_temp}°C";
-                                break;
-                            }
-                        } else if ($conditions[$condition_site_id]->low_temp && $conditions[$condition_site_id]->high_temp && $reading) { // Check to see if all conditions are set
-                            if ($reading < $conditions[$condition_site_id]->low_temp || $reading > $conditions[$condition_site_id]->high_temp) { // Check reading against condition
-                                $notifications[$condition_site_id]['temp'] = "[$condition_site_id] Reading is {$reading}°C and the optimal range is {$conditions[$condition_site_id]->low_temp}°C - {$conditions[$condition_site_id]->high_temp}°C";
-                                break;
-                            }
-                        }
-                    }
-                }
+			$total = count($device->readings);
+			$count = 0;
+			$last_notification = null;
 
-                foreach ($device->secondaryReadings as $secondaryReading) {
-                    if ($conditions[$condition_site_id]->low_humidity && $conditions[$condition_site_id]->high_humidity && $secondaryReading) { // Check to see if all conditions are set
-                        if ($secondaryReading < $conditions[$condition_site_id]->low_humidity || $secondaryReading > $conditions[$condition_site_id]->high_humidity) { // Check reading against condition
-                            $notifications[$condition_site_id]['humidity'] = "[$condition_site_id] Reading is {$secondaryReading}% and the optimal range is {$conditions[$condition_site_id]->low_humidity}% - {$conditions[$condition_site_id]->high_humidity}%";
-                            break;
-                        }
-                    }
-                }
-            } else if ($device->type == 'lumosity') {
-                foreach ($device->readings as $reading) {
-                    if ($condition_site_id) {
-                        if ($conditions[$condition_site_id]->low_lux && $conditions[$condition_site_id]->high_lux && $reading) { // Check to see if all conditions are set
-                            if ($reading < $conditions[$condition_site_id]->low_lux || $reading > $conditions[$condition_site_id]->high_lux) { // Check reading against condition
-                                $notifications[$condition_site_id]['lux'] = "[$condition_site_id] Reading is ".round($reading)."lux and the optimal range is {$conditions[$condition_site_id]->low_lux}lux - {$conditions[$condition_site_id]->high_lux}lux";
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else if ($device->type == 'hydrometer') {
-                foreach ($device->readings as $reading) {
-                    if ($condition_site_id) {
-                        if ($conditions[$condition_site_id]->low_moisture && $conditions[$condition_site_id]->high_moisture && $reading) { // Check to see if all conditions are set
-                            if ($reading < $conditions[$condition_site_id]->low_moisture || $reading > $conditions[$condition_site_id]->high_moisture) { // Check reading against condition
-                                $notifications[$condition_site_id]['moisture'] = "[$condition_site_id] Reading is ".round($reading)."%vwc and the optimal range is {$conditions[$condition_site_id]->low_moisture}%vwc - {$conditions[$condition_site_id]->high_moisture}%vwc";
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else if ($device->type == 'gas') {
-                foreach ($device->readings as $reading) {
-                    if ($condition_site_id) {
-                        if ($conditions[$condition_site_id]->low_gas && $conditions[$condition_site_id]->high_gas && $reading) { // Check to see if all conditions are set
-                            if ($reading > $conditions[$condition_site_id]->low_gas && $reading < $conditions[$condition_site_id]->high_gas) { // Check reading against condition
-                                $notifications[$condition_site_id]['gas'] = "[$condition_site_id] Warning! Carbon monoxide level is {$reading}ppm and the danger range is {$conditions[$condition_site_id]->low_gas}ppm - {$conditions[$condition_site_id]->high_gas}ppm";
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+			if ($device->type == 'tempHumid') {
+				// Temperature
+				foreach ($device->readings as $reading) {
+					if ($condition_site_id) {
+						if ($winter) { // Set the optimal range depending on winter temperatures
+							$low = $conditions[$condition_site_id]->winter_low_temp;
+							$high = $conditions[$condition_site_id]->winter_high_temp;
+						} else {
+							$low = $conditions[$condition_site_id]->low_temp;
+							$high = $conditions[$condition_site_id]->high_temp;
+						}
+						if ($reading && $low && $high) { //Check that nothing is null
+							if ($reading < $low) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently too cold: {round($reading)}";
+							} else if ($reading > $high) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently too hot: {round($reading)}";
+							}
+							$percentage = round($count/$total*100);
+							$tmp_notifications[$condition_site_id]['temp'] = "$condition_site_id - $device->id|Temperature outside optimal range ({$low}-{$high}°C) for {$percentage}% of readings";
+							$tmp_notifications_last[$condition_site_id]['temp'] = $last_notification;
+						}
+					}
+				}
+				$count = 0;
+				//Humidity
+				foreach ($device->secondaryReadings as $secondaryReading) {
+					if ($condition_site_id) {
+						$low = $conditions[$condition_site_id]->low_humidity;
+						$high = $conditions[$condition_site_id]->high_humidity;
+						if ($reading && $low && $high) { //Check that nothing is null
+							if ($reading < $low) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently humidity too low: {round($reading)}%";
+							} else if ($reading > $high) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently humidity too high: {round($reading)}%";
+							}
+							$percentage = round($count/$total*100);
+							$tmp_notifications[$condition_site_id]['humidity'] = "$condition_site_id - $device->id|Humidity outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
+							$tmp_notifications_last[$condition_site_id]['humidity'] = $last_notification;
+						}
+					}
+				}
 
-        return $notifications;
+			} else if ($device->type == 'lumosity') {
+				// Light 
+				foreach ($device->readings as $reading) {
+					if ($condition_site_id) {
+						$low = $conditions[$condition_site_id]->low_lux;
+						$high = $conditions[$condition_site_id]->high_lux;
+						if ($reading && $low && $high) { //Check that nothing is null
+							if ($reading < $low) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently too dark: {round($reading)} lux";
+							} else if ($reading > $high) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently too bright: {round($reading)} lux";
+							}
+							$percentage = round($count/$total*100);
+							$tmp_notifications[$condition_site_id]['lux'] = "$condition_site_id - $device->id|Brightness outside optimal range ({$low}-{$high} lux) for {$percentage}% of readings";
+							$tmp_notifications_last[$condition_site_id]['lux'] = $last_notification;
+						}
+					}
+				}
+
+			} else if ($device->type == 'hydrometer') {
+				// Moisture
+				foreach ($device->readings as $reading) {
+					if ($condition_site_id) {
+						$low = $conditions[$condition_site_id]->low_moisture;
+						$high = $conditions[$condition_site_id]->high_moisture;
+						if ($reading && $low && $high) { //Check that nothing is null
+							if ($reading < $low) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently soil too dry: {round($reading)}%";
+							} else if ($reading > $high) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] Currently soil too wet: {round($reading)}%";
+							}
+							$percentage = round($count/$total*100);
+							$tmp_notifications[$condition_site_id]['moisture'] = "$condition_site_id - $device->id|Soil moisture outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
+							$tmp_notifications_last[$condition_site_id]['moisture'] = $last_notification;
+						}
+					}
+				}
+
+			} else if ($device->type == 'gas') {
+				// CO Sensor
+				foreach ($device->readings as $reading) {
+					if ($condition_site_id) {
+						$low = $conditions[$condition_site_id]->low_gas;
+						$high = $conditions[$condition_site_id]->high_gas;
+						if ($reading && $low && $high) { //Check that nothing is null
+							if ($reading > $high) {
+								$count++;
+								$last_notification = "[$condition_site_id:$device->id] DANGER Carbon Monoxide level too high: {round($reading)}ppm";
+							}
+							$percentage = round($count/$total*100);
+							$tmp_notifications[$condition_site_id]['gas'] = "$condition_site_id - $device->id|DANGER Carbon Monoxide level dangerous for {$percentage}% of readings";
+							$tmp_notifications_last[$condition_site_id]['gas'] = $last_notification;
+						}
+					}
+				}
+			}
+		}
+
+		$this->notifications = $tmp_notifications;
+		$this->notifications_last = $tmp_notifications_last;
 	}
 
 
