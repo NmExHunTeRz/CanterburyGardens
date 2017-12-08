@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('header')
+<h1>Dashboard</h1>
+@endsection
+
 @section('content')
 <script type='text/javascript'>
 		window.sites = {!! json_encode($sites) !!};
@@ -62,11 +66,11 @@
 	}
 </script>
 
-<div class='container dash-container'>
+<!-- Notifications and status board -->
+<div class='container dash-main-container'>
 	<div class='row'>
-		<h1 class="page-header">Dashboard</h1>
-		<div class='col-xs-12 col-md-6 col-lg-6 dash-notices'>
-			<h3>Alerts</h3>
+		<div class='col-xs-12 col-md-6 col-lg-6 dash-notices no-pad'>
+			<h3 class='dash-title'>Alerts</h3>
 			<p>Devices that need action as they are not in the optimum condition requirements.</p>
 			<ul id='notifications'></ul>
 			<div class="container">
@@ -90,7 +94,9 @@
 					@endforeach
 				@endforeach
 			</div>
-			<h3>Device Statuses</h3>
+		</div>
+		<div class="col-xs-12 col-md-12 col-lg-6 dash-statuses no-pad">
+			<h3 class='dash-title'>Device Statuses</h3>
 			<p>Status of all devices based on data received in the last 12 hours and when the last connection was established.</p>
 			<ul id='notifications'></ul>
 			{{-- Device Overview --}}
@@ -126,7 +132,6 @@
 		<script>
 			$accordions = $('#accordion').children().each(function(i) {
 				var problem = false;
-				// console.log($(this).children('.panel-body').children('ul').find('li ul li'));
 				$(this).children('.panel-body').children('ul').find('li ul li').each(function(index) {
 					if ($(this).hasClass('text-danger')) problem = true;
 				});
@@ -135,62 +140,108 @@
 				else 
 					$(this).children('.panel-heading').addClass('accordion-title-danger');
 			});
-			// console.log($accordions)
 		</script>
-		<div class="col-xs-12 col-md-12 col-lg-6 weather">
-		<h3>Weather</h3>
-			<div class="container weather-container">
-				<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
-				<!-- Weather widget taken from whateverweather.com -->
-                <a href="https://www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg"><h4>MET Office Weather Forecast</h4><a>
-			</div>
-		</div>
-		<!-- Overview colouring script -->
-		<script>
-			$accordion = $('#accordion');
-		</script>
+		<hr>
 	</div>
 	<hr>
-	<div class='container map-container'>
-		<h3>Site Map</h3>
-		<div class='row'>
-			<div id='iot-map' class='col-md-6'></div>
-			<div id='iot-map-data' class='col-md-6'></div>
+	<div class='row dash-weather-container no-pad'>
+		<h3 class='dash-title'>Weather</h3>
+		<div class="container weather-container">
+			<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
+			<!-- Weather widget taken from whateverweather.com -->
+		</div>
+	</div>
+	<div class='row dash-map-container no-pad'>
+		<h3 class='dash-title'>Site Map</h3>
+		<div class='container'>
+			<div class='row'>
+				<div id='iot-map' class='col-xs-12 col-sm-12 col-md-6'></div>
+				<div id='iot-map-data' class='col-xs-12 col-sm-12 col-md-6'></div>
+			</div>
 		</div>
 	</div>
 	<hr>
-	<h3>Devices</h3>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="form-group">
-					
-					<div class="col-sm-10">
-						<label for="devices">Select a device:</label>
-						<select class="form-control" id="devices">
-							@foreach ($devices as $key => $device)
-								<option value="{{$key}}">{{$device->name}} ({{$device->id}})</option>
-							@endforeach
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-success" id="view_device">View</button>
-					</div>
-					<div class="col-sm-12">
-						<canvas id="myChart" width="400" height="400"></canvas>
-					</div>
-				</div>
+	<div class='row dash-chart-container no-pad'>
+		<h3 class='dash-title'>Devices</h3>
+		<div class="form-group">
+			<div class="col-xs-12 col-lg-4">
+				<label for="sites-select">Select a site:</label>
+				<select class="form-control" id="sites-select">
+					@foreach ($sites as $key => $site)
+						<option value="{{$key}}">{{$site['name']}}</option>
+					@endforeach
+				</select>
+			</div>
+			<div class="col-xs-12 col-lg-4">
+				<label for="zones-select">Select a zone:</label>
+				<select class="form-control" id="zones-select">
+					@php
+						$firstSite = array_keys($sites)[0];
+					@endphp
+					@foreach ($sites[$firstSite]['zones'] as $key => $zone)
+						<option value="{{$key}}">{{$zone['name']}}</option>
+					@endforeach
+				</select>
+			</div>
+			<div class="col-xs-12 col-lg-4">
+				<label for="devices-select">Select a device:</label>
+				<select class="form-control" id="devices-select">
+					@php
+						$firstZone = array_keys($sites[$firstSite]['zones'])[0];
+					@endphp
+					@foreach($sites[$firstSite]['zones'][$firstZone]['devices'] as $device)
+						<option value="{{$device->id}}">{{$device->name}}</option>
+					@endforeach
+				</select>
+			</div>
+			<div class="col-sm-2 mt-5 pull-right">
+				<button id="chart_button">View Device Data</button>
+			</div>
+			<div class="col-xs-12">
+				<canvas id="myChart" width="400" height="400"></canvas>
 			</div>
 		</div>
+	</div>
 </div>
 
 <script>
 $(document).ready(function() {
 	var chart = null;
 
-	$("#view_device").click(function() {
+	// Site selection dropdown
+	$("#sites-select").change(function() {
+		setZonesSelection();
+		setDevicesSelection();
+	});
+
+	$("#zones-select").change(function() {
+		setDevicesSelection();
+	});
+
+	function setZonesSelection() {
+		// Change zones options
+		var site_selected = $('#sites-select option:selected');
+		var str = "";
+		$.each(window.sites[site_selected.val()]['zones'], function(index, zone) {
+			str += "<option value='" + index + "'>" + zone.name + "</option>";
+		});
+		$('#zones-select').html(str);
+	}
+	function setDevicesSelection() {
+		// Change devices options
+		var site_selected = $('#sites-select option:selected');
+		var zone_selected = $('#zones-select option:selected');
+		var str = "";
+		$.each(window.sites[site_selected.val()]['zones'][zone_selected.val()]['devices'], function(index, device) {
+			str += "<option value='" + device.id + "'>" + device.name + "</option>";
+		});
+		$('#devices-select').html(str);
+	}
+
+	$("#chart_button").click(function() {
 		if (chart) // If we have an existing chart then we need to destroy it before generating a new one
 			chart.destroy();
-		var id = $("#devices option:selected").val();
+		var id = $("#devices-select option:selected").val();
 		var encoded_data = {!! json_encode($devices) !!};
 		generateLineGraph(encoded_data[id]['readings'], encoded_data[id]['timestamps']);
 	});

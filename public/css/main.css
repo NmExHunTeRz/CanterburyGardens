@@ -1,20 +1,68 @@
-/* Main Structure */
+/* Colour scheme: 
+Red: #D62839;
+Black: #0D0221;
+Dark Blue: #0F084B;
+Light Blue: #27A3D1;
+White: #CCE6F4;
+Green: #7CB518;
+
+*/
+/*============================= MAIN CONTENT START ==========================*/
 body {
 	padding-top: 50px;
 }
 
+/* Header */
+.header-container {
+	text-align: center;
+	/*margin-top: 50px;*/
+	padding-top: 1px;
+	padding-bottom: 10px;
+	background-color: #0D0221;
+	color: white;
+}
 .sub-header {
 	padding-bottom: 10px;
 	border-bottom: 1px solid #eee;
 }
-/
+
+/* Navbar */
 .navbar-fixed-top {
 	border: 0;
 	background-color: #0F084B;
 }
+.navbar-fixed-top a {
+	color: white;
+	text-transform: uppercase;
+}
 
-/* Sidebar */
+/* Dash content */
+.dash-title {
+	font-size: 26px;
+	background-color: #D62839;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	padding: 7px;
+}
 
+.main {
+	padding: 20px;
+}
+@media (min-width: 768px) {
+	.main {
+	padding-right: 40px;
+	padding-left: 40px;
+	}
+}
+
+.jumbotron {
+	padding:10px;
+}
+/*============================= MAIN CONTENT END ==========================*/
+
+
+/*============================= SIDEBAR START ==========================*/
 @media (min-width: 768px) {
 	.sidebar {
 	position: fixed;
@@ -46,35 +94,25 @@ body {
 	color: #fff;
 	background-color: #428bca;
 }
+/*============================= SIDEBAR END ==========================*/
 
-/* Main Content */
 
-.main {
-	padding: 20px;
+/*============================= CHARTS START ==========================*/
+#chart_button {
+	width: 100%;
+	background-color: #0F084B;
+	border: 1px solid #0F084B;
+	padding: 10px;
+	color: white;
 }
-@media (min-width: 768px) {
-	.main {
-	padding-right: 40px;
-	padding-left: 40px;
-	}
-}
-.main .page-header {
-	margin-top: 0;
-}
-
-/* Jumbotron */
-
-.jumbotron {
-	padding:10px;
-}
-
-/* Charts */
 
 canvas {
 	border:1px solid;
 }
+/*============================= CHARTS END ==========================*/
 
-/* Map */
+
+/*============================= GOOGLE MAP START ==========================*/
 .map-container {
 	padding-top: 20px;
 	margin: auto;
@@ -87,17 +125,29 @@ canvas {
 /* Data Panel */
 #iot-map-data {
 	height: 400px;
-	background-color: #235789;
+	background-color: #0F084B;
 }
 #iot-map-data ul {
 	margin: 15px;
 }
 #iot-map-data ul li {
 	color: white;
-	font-size: 18px;
+	font-size: 20px;
 	list-style-type: none;
+	line-height: 32px;
 }
+/*============================= GOOGLE MAP END ==========================*/
 
+
+/*============================= WEATHER START ==========================*/
+.weather-container {
+	margin:auto;
+	width: 50%;
+}
+/*============================= WEATHER END ==========================*/
+
+
+/*============================= NOTIFICATIONS START ==========================*/
 .sensor-gas:before {
 	content: "";
 	width: 25px;
@@ -153,18 +203,39 @@ canvas {
 	left: 40px;
 	position: absolute;
 }
+/*============================= NOTIFICATIONS END ==========================*/
 
-/* Accordion */
+
+/*============================= ACCORDION START ==========================*/
 .panel > .panel-heading {
-    background-image: none;
-    background-color: grey;
-    color: black;
+	background-image: none;
+	color: white;
 
 }.accordion-title-success {
 	background-image: none;
-	background-color: green !important;
+	background-color: #5FBC18 !important;
 }
 
 .accordion-title-danger {
-	background-color: red !important;
+	background-image: none;
+	background-color: #D62839 !important;
 }
+/*============================= ACCORDION END ==========================*/
+
+
+/*============================= HELPER START ==========================*/
+.no-pad {
+	padding: 0px;
+}
+
+.no-margin {
+	margin: 0px;
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+/*============================= HELPER END ==========================

@@ -67,6 +67,9 @@
 				</div>
 			</div>
 		</nav>
+		<div class='header-container'>
+			@yield('header')
+		</div>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12 main">

@@ -160,7 +160,7 @@ class MainController extends Controller
             if ($device->id == 'outside_field_temp') { // Root Crop
                 $condition_site_id = 'field';
             } else if ($device->id == 'outside_heap_temp') { // Heap
-                $condition_site_id = 'muck_heap';
+                $condition_site_id = 'heap';
             } else if ($device->site_id == "house") { // Store Room
                 $condition_site_id = 'shed';
             } else if (isset($conditions[$device->site_id])) {
