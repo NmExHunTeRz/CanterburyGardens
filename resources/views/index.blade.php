@@ -79,8 +79,7 @@
 
 			<div class='col-xs-12 col-md-12 col-lg-11 tab-content'>
 				<div id='notifications-overview' class="tab-pane fade in active">
-					<p>Devices that need action as they are not in the optimum condition requirements.</p>
-					<ul id='notifications'></ul>
+					<p>Showing a summary of notifications over the past 12 hours</p>
 					<div class="notifications-container col-xs-12">
 						@foreach ($notifications as $notification)
 							@foreach ($notification as $type => $alert)
@@ -108,6 +107,31 @@
 				</div>
 				<div id='notifications-recent' class="tab-pane fade">
 					<!-- TODO: recent notifications go here, in same format as notifications-overview div above -->
+					<p>Showing the most recent notifications</p>
+					<div class="notifications-container col-xs-12">
+						@foreach ($notifications_last as $notification)
+							@foreach ($notification as $type => $alert)
+								@php
+									$arr = explode('|', $alert);
+								@endphp
+								@if ($type == 'gas')
+									<div class='col-xs-12 notification-item'><img src="/img/gasmask-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-danger">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'moisture')
+									<div class='col-xs-12 notification-item'><img src="/img/moisture-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'temp')
+								<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'humidity')
+									<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+								@if ($type == 'lux')
+									<div class='col-xs-12 notification-item'><img src="/img/sunny-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+								@endif
+							@endforeach
+						@endforeach
+					</div>
 				</div>
 			</div>
 		</div>

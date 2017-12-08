@@ -109,6 +109,8 @@ body {
 	border: 1px solid #0F084B;
 	padding: 10px;
 	color: white;
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 canvas {
@@ -226,7 +228,7 @@ canvas {
 }
 .notification-contents {
 	width: 90%;
-    float: right;
+	float: right;
 	padding-top: 8px;
 	padding-bottom: 3px;
 }
@@ -235,7 +237,7 @@ canvas {
 }
 .nav-tabs li {
 	width: 50%;
-    text-align: center;
+	text-align: center;
 }
 .nav-tabs li a {
 	color: black;
@@ -243,7 +245,7 @@ canvas {
 }
 .nav-tabs li.active {
 	width: 50%;
-    text-align: center;
+	text-align: center;
 }
 .nav-tabs li.active a {
 	color: white;
