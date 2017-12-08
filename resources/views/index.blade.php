@@ -198,7 +198,7 @@
 				<button id="chart_button">View Device Data</button>
 			</div>
 			<div class="col-xs-12">
-				<canvas id="myChart" width="400" height="400"></canvas>
+				<canvas id="myChart"></canvas>
 			</div>
 		</div>
 	</div>

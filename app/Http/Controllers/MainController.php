@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-	public $sites;
-	public $sensors;
-	public $notifications;
+	public $sites = [];
+	public $sensors = [];
+	public $notifications = [];
 
     public function huy()
     {
-        dump('huy');
+        dd($sites);
         return view('huy');
 	}
 
@@ -28,10 +28,19 @@ class MainController extends Controller
 	{
 		$conditions = Condition::all(); //
 
-		$this->sites = [];
-		$this->sensors = [];
-		$this->notifications = [];
+		$this->initData('minute', 750);
+		
+		$devices = collect($this->sensors)->keyBy('id');
+        $conditions = Condition::all()->keyBy('site_id');
 
+		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->processNotification($devices, $conditions)]);
+	}
+
+	/**
+	 *	Initialize data arrays via the Swagger API
+	 *  Takes two parameters: what data collection period to use and what data length to keep (null to keep all values)
+	 */
+	public function initData($period, $data_length) {
 		// Initialize sites and relevant metadata
 		$data_sites = $this->getData('sites');
 		foreach ($data_sites as $data_site) {
@@ -63,13 +72,18 @@ class MainController extends Controller
 		}
 
 		// Initialize data arrays
-		$fidelity = 'minute';
+		$fidelity = $period;
 		foreach($this->sensors as $device) {
 			$data = $this->refreshRawSensorData($device->getID(), $fidelity);
 			switch($device->getType()) {
 				case 'gas':
-					$timestamps = array_slice(collect($data['gas_values'])->pluck(0)->toArray(), count($data['gas_values']) - 400);
-					$readings = array_slice(collect($data['gas_values'])->pluck(1)->toArray(), count($data['gas_values']) - 400);
+					if ($data_length === null) {
+						$timestamps = collect($data['gas_values'])->pluck(0)->toArray();
+						$readings = collect($data['gas_values'])->pluck(1)->toArray();
+					} else {
+						$timestamps = array_slice(collect($data['gas_values'])->pluck(0)->toArray(), count($data['gas_values']) - $data_length);
+						$readings = array_slice(collect($data['gas_values'])->pluck(1)->toArray(), count($data['gas_values']) - $data_length);
+					}
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
 					$device->setScale($data['gas_scale']);
@@ -78,8 +92,13 @@ class MainController extends Controller
 					$device->processData();
                     break;
 				case 'solar':
-					$timestamps = array_slice(collect($data['solar_value'])->pluck(0)->toArray(), count($data['solar_value']) - 400);
-					$readings = array_slice(collect($data['solar_value'])->pluck(1)->toArray(), count($data['solar_value']) - 400);
+					if ($data_length === null) {
+						$timestamps = collect($data['solar_value'])->pluck(0)->toArray();
+						$readings = collect($data['solar_value'])->pluck(1)->toArray();
+					} else {
+						$timestamps = array_slice(collect($data['solar_value'])->pluck(0)->toArray(), count($data['solar_value']) - $data_length);
+						$readings = array_slice(collect($data['solar_value'])->pluck(1)->toArray(), count($data['solar_value']) - $data_length);
+					}
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
 					$device->setScale($data['solar_scale']);
@@ -88,8 +107,13 @@ class MainController extends Controller
 					$device->processData();
 					break;
 				case 'hydrometer':
-					$timestamps = array_slice(collect($data['moisture_value'])->pluck(0)->toArray(), count($data['moisture_value']) - 400);
-					$readings = array_slice(collect($data['moisture_value'])->pluck(1)->toArray(), count($data['moisture_value']) - 400);
+					if ($data_length === null) {
+						$timestamps = collect($data['moisture_value'])->pluck(0)->toArray();
+						$readings = collect($data['moisture_value'])->pluck(1)->toArray();
+					} else {
+						$timestamps = array_slice(collect($data['moisture_value'])->pluck(0)->toArray(), count($data['moisture_value']) - $data_length);
+						$readings = array_slice(collect($data['moisture_value'])->pluck(1)->toArray(), count($data['moisture_value']) - $data_length);
+					}
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
 					$device->setScale($data['moisture_scale']);
@@ -98,16 +122,21 @@ class MainController extends Controller
 					$device->processData();
 					break;
 				case 'tempHumid':
-					$timestamps = array_slice(collect($data['temperature_value'])->pluck(0)->toArray(), count($data['temperature_value']) - 400);
-					$readings = array_slice(collect($data['temperature_value'])->pluck(1)->toArray(), count($data['temperature_value']) - 400);
+					if ($data_length === null) {
+						$timestamps = collect($data['temperature_value'])->pluck(0)->toArray();
+						$readings = collect($data['temperature_value'])->pluck(1)->toArray();
+						$secondtimestamps = collect($data['humidity_value'])->pluck(0)->toArray();
+						$secondreadings = collect($data['humidity_value'])->pluck(1)->toArray();
+					} else {
+						$timestamps = array_slice(collect($data['temperature_value'])->pluck(0)->toArray(), count($data['temperature_value']) - $data_length);
+						$readings = array_slice(collect($data['temperature_value'])->pluck(1)->toArray(), count($data['temperature_value']) - $data_length);
+						$secondtimestamps = array_slice(collect($data['humidity_value'])->pluck(0)->toArray(), count($data['humidity_value']) - $data_length);
+						$secondreadings = array_slice(collect($data['humidity_value'])->pluck(1)->toArray(), count($data['humidity_value']) - $data_length);
+					}
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
-
-					$timestamps = array_slice(collect($data['humidity_value'])->pluck(0)->toArray(), count($data['humidity_value']) - 400);
-					$readings = array_slice(collect($data['humidity_value'])->pluck(1)->toArray(), count($data['humidity_value']) - 400);
-					$device->setSecondaryTimestamps($timestamps);
-					$device->setSecondaryReadings($readings);
-
+					$device->setSecondaryTimestamps($secondtimestamps);
+					$device->setSecondaryReadings($secondreadings);
 					$device->setScale($data['temp_scale']);
 					$device->setSecondaryScale($data['humidity_scale']);
 					$device->setFidelity($fidelity);
@@ -115,8 +144,13 @@ class MainController extends Controller
 					$device->processData();
 					break;
 				case 'lumosity':
-					$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - 1000);
-					$readings = array_slice(collect($data['light_value'])->pluck(1)->toArray(), count($data['light_value']) - 1000);
+					if ($data_length === null) {
+						$timestamps = collect($data['light_value'])->pluck(0)->toArray();
+						$readings = collect($data['light_value'])->pluck(1)->toArray();
+					} else {
+						$timestamps = array_slice(collect($data['light_value'])->pluck(0)->toArray(), count($data['light_value']) - $data_length);
+						$readings = array_slice(collect($data['light_value'])->pluck(1)->toArray(), count($data['light_value']) - $data_length);
+					}
 					$device->setTimestamps($timestamps);
 					$device->setReadings($readings);
 					$device->setScale($data['light_scale']);
@@ -126,23 +160,12 @@ class MainController extends Controller
 					break;
 			}
 		}
-		
-		$devices = collect($this->sensors)->keyBy('id');
-        $conditions = Condition::all()->keyBy('site_id');
-
-		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->processNotification($devices, $conditions)]);
 	}
 
-	public function getData($path)
-	{
-		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
-	}
-
-	public function refreshRawSensorData($sensorID, $rate) {
-		return $this->getData("device/$sensorID/$rate");
-	}
-
-    public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
+	/**
+	 *	Generate notification messages to pass to view. only used on dashboard view.
+	 */
+	public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
     {
         $notifications = [];
         $condition_site_id = null;
@@ -229,5 +252,15 @@ class MainController extends Controller
         }
 
         return $notifications;
+	}
+
+
+	public function getData($path)
+	{
+		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
+	}
+
+	public function refreshRawSensorData($sensorID, $rate) {
+		return $this->getData("device/$sensorID/$rate");
 	}
 }
