@@ -73,9 +73,9 @@
 			<h3 class='dash-title'>Alerts</h3>
 
 			<ul class="nav nav-tabs">
-    			<li class="active"><a data-toggle="tab" href="#notifications-overview">Overview</a></li>
-    			<li><a data-toggle="tab" href="#notifications-recent">Most Recent</a></li>
-    		</ul>
+				<li class="active"><a data-toggle="tab" href="#notifications-overview">Overview</a></li>
+				<li><a data-toggle="tab" href="#notifications-recent">Most Recent</a></li>
+			</ul>
 
 			<div class='col-xs-12 col-md-12 col-lg-11 tab-content'>
 				<div id='notifications-overview' class="tab-pane fade in active">

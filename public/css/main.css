@@ -133,6 +133,8 @@ canvas {
 #iot-map-data {
 	height: 400px;
 	background-color: #0F084B;
+	display: flex;
+	align-items: center;
 }
 #iot-map-data ul {
 	margin: 15px;
@@ -262,8 +264,13 @@ canvas {
 .panel > .panel-heading {
 	background-image: none;
 	color: white;
+}
 
-}.accordion-title-success {
+.panel-title {
+	text-align: center !important;
+}
+
+.accordion-title-success {
 	background-image: none;
 	background-color: #5FBC18 !important;
 }
