@@ -17,6 +17,10 @@ body {
 	font-size: 17px;
 }
 
+.preferences_table input {
+	width: 80px;
+}
+
 /* Header */
 .header-container {
 	text-align: center;
