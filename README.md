@@ -1,7 +1,9 @@
 # Canterbury Gardens Ltd
 
 Designed to help Farmer Cooksey at Canterbury Gardens with his day-to-day farming operations by applying data aggregation, fusion and visualisation.
-### Setup for Windows
+
+The data processing and robustness criterias were primarily addressed in `CanterburyGardens\app\Http\Controllers\MainController` and visualisation has been addressed primarily in `C:\xampp\htdocs\CanterburyGardens\resources\views` in the files `huy.blade.php` and `index.blade.php`
+## Setup for Windows
 1 - Install [Xampp PHP7](https://www.apachefriends.org/download.html) and install [Composer](https://getcomposer.org/download/)
 ```
 Install Xampp with PHP7 or a preferred local web server solution.
