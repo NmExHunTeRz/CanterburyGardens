@@ -18,8 +18,9 @@ class MainController extends Controller
 
 	public function huy()
 	{
-		$this->initData('10minute', null);
-		return view('huy', ['sites' => $this->sites]);
+        //dd($sites);
+
+        return view('huy', []);
 	}
 
 	/**
@@ -27,16 +28,20 @@ class MainController extends Controller
 	 */
 	public function index()
 	{
+		$conditions = Condition::all(); //
 
 		$this->initData('minute', 750);
+		
 		$devices = collect($this->sensors)->keyBy('id');
-
-		$conditions = Condition::all(); 
 		$conditions = Condition::all()->keyBy('site_id');
 
-		$this->processNotification($devices, $conditions);
+        $this->processNotification($devices, $conditions);
+        
+        $rainfall24 = $this->rainData();
+        $weatherData = $this->weatherData();
 
-		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->notifications, 'notifications_last' => $this->notifications_last]);
+
+		return view('index', ['sites' => $this->sites, 'devices' => $devices, 'conditions' => $conditions, 'notifications' => $this->notifications, 'notifications_last' => $this->notifications_last, 'rainfall' => $rainfall24, 'weather' => $weatherData]);
 	}
 
 	/**
@@ -313,6 +318,39 @@ class MainController extends Controller
 		$this->notifications_last = $tmp_notifications_last;
 	}
 
+    /**
+     * Gets the rainfall from the past 24 hours, totals it and formats it to inches
+     */
+    public function rainData()
+    {
+        $data_rain = $rainData = $this -> getRainData();
+
+        $temp = 0;
+        
+        foreach ($data_rain['items'] as $time) {
+            $temp += $time['value'];
+        }
+
+        return round(($temp/25.4), 3);
+    }
+
+    public function weatherData()
+    {
+        $fullData = $this->getWeatherData();
+        $daydata = $fullData['SiteRep']['DV']['Location']['Period'][0]['Rep'];
+
+        switch ($daydata[0]["W"]) {
+            case 'value':
+                # code...
+                break;
+            
+            default:
+                $returnArray['tomorrowWeather'] = "No weather data availible";
+                break;
+        }
+
+        return $returnArray;
+    }
 
 	public function getData($path)
 	{
@@ -321,5 +359,21 @@ class MainController extends Controller
 
 	public function refreshRawSensorData($sensorID, $rate) {
 		return $this->getData("device/$sensorID/$rate");
-	}
+    }
+    
+    /**
+     * Gets weather data for the next 24 hours
+     */
+    public function getWeatherData()
+    {
+        return json_decode(file_get_contents("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/322089?res=daily&key=e46d1123-7ccf-4a53-bd16-115c36761e23"), true);
+    }
+
+    /**
+     * Gets rain readings for the past 24 hours
+     */
+    public function getRainData()
+    {
+        return json_decode(file_get_contents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=360&_sorted&parameter=rainfall"), true);
+    }
 }
