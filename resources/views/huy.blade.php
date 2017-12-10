@@ -10,6 +10,7 @@
 	console.log(sites);
 </script>
 <div class='container graphs-container'>
+	<h3>Showing data averages from {{\Carbon\Carbon::today()->subWeek()->toDateString()}} to {{\Carbon\Carbon::today()->toDateString()}} at each site.</h3>
 	<div class='row' id='selection'>
 		<h3 class='dash-title'>Data Selection</h3>
 		<div class='form-group' id='graphs-nav'>
@@ -118,9 +119,17 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#light-chart').html('');
 				var ctx = document.getElementById('light-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				lightchart = getChart(ctx, movingavg_readings, timestamps);
 			}
 
 			// hydrometer
@@ -145,9 +154,17 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#moisture-chart').html('');
 				var ctx = document.getElementById('moisture-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				moisturechart = getChart(ctx, movingavg_readings, timestamps)
 			}
 
 			// gas
@@ -172,9 +189,17 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#gas-chart').html('');
 				var ctx = document.getElementById('gas-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				gaschart = getChart(ctx, movingavg_readings, timestamps);
 			}
 
 			// solar
@@ -199,9 +224,17 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#solar-chart').html('');
 				var ctx = document.getElementById('solar-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				solarchart = getChart(ctx, movingavg_readings, timestamps);
 			}
 
 			// tempHumid
@@ -232,9 +265,17 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#temperature-chart').html('');
 				var ctx = document.getElementById('temperature-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				tempchart = getChart(ctx, movingavg_readings, timestamps);
 
 				// Do the same for humidity
 				var avg_readings = [];
@@ -246,12 +287,22 @@
 					avg_readings.push(sum/num_devices)
 				}
 
+				var movingavg_readings = [];
+				movingavg_readings.push(avg_readings[0]);
+				for (i = 1; i < length - 1; i++) {
+					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+					movingavg_readings.push(mean);
+				}
+				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+
 				$('#humidity-chart').html('');
 				var ctx = document.getElementById('humidity-chart').getContext('2d');
-				lightchart = getChart(ctx, avg_readings, timestamps);
+				humidchart = getChart(ctx, movingavg_readings, timestamps);
 			}
-
 		});
+	
+	$('#gph-button').trigger('click');
+
 	});
 
 	function resetSiteDevices() {
@@ -298,7 +349,8 @@
 							beginAtZero: true
 						}
 					}]
-				}
+				},
+				// animation: false,
 			}
 		});
 	}
