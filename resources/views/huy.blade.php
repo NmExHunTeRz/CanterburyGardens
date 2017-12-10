@@ -74,7 +74,7 @@
 		resetSiteDevices();
 
 		$('#gph-button').click(function() {
-			window.sitedevices = 
+			resetSiteDevices();
 			$.each(window.charts, function(index, chart) {
 				if (chart) chart.destroy();
 			});
@@ -94,7 +94,163 @@
 					});
 				});
 			}
+
 			// Fill the appropriate graphs and turn off the rest
+			// Lumosity
+			if (window.siteDevices['lumosity'].length == 0) $('#light').hide();
+			else {
+				$('#light').show();
+				var num_devices = window.siteDevices['lumosity'].length;
+				// Determine minimum length in data arrays, in case they are different
+				var length = window.siteDevices['lumosity'][0]['readings'].length;
+				var timestamps = window.siteDevices['lumosity'][0].timestamps;
+				$.each(window.siteDevices['lumosity'], function(index, device) {
+					if (device.readings.length < length) length = device.readings.length;
+				});
+
+				// Build our average data array
+				var avg_readings = [];
+				for (i = 0; i < length; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['lumosity'], function(index, device) {
+						sum += device.readings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#light-chart').html('');
+				var ctx = document.getElementById('light-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+			}
+
+			// hydrometer
+			if (window.siteDevices['hydrometer'].length == 0) $('#moisture').hide();
+			else {
+				$('#moisture').show();
+				var num_devices = window.siteDevices['hydrometer'].length;
+				// Determine minimum length in data arrays, in case they are different
+				var length = window.siteDevices['hydrometer'][0]['readings'].length;
+				var timestamps = window.siteDevices['hydrometer'][0].timestamps;
+				$.each(window.siteDevices['hydrometer'], function(index, device) {
+					if (device.readings.length < length) length = device.readings.length;
+				});
+
+				// Build our average data array
+				var avg_readings = [];
+				for (i = 0; i < length; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['hydrometer'], function(index, device) {
+						sum += device.readings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#moisture-chart').html('');
+				var ctx = document.getElementById('moisture-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+			}
+
+			// gas
+			if (window.siteDevices['gas'].length == 0) $('#gas').hide();
+			else {
+				$('#gas').show();
+				var num_devices = window.siteDevices['gas'].length;
+				// Determine minimum length in data arrays, in case they are different
+				var length = window.siteDevices['gas'][0]['readings'].length;
+				var timestamps = window.siteDevices['gas'][0].timestamps;
+				$.each(window.siteDevices['gas'], function(index, device) {
+					if (device.readings.length < length) length = device.readings.length;
+				});
+
+				// Build our average data array
+				var avg_readings = [];
+				for (i = 0; i < length; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['gas'], function(index, device) {
+						sum += device.readings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#gas-chart').html('');
+				var ctx = document.getElementById('gas-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+			}
+
+			// solar
+			if (window.siteDevices['solar'].length == 0) $('#solar').hide();
+			else {
+				$('#solar').show();
+				var num_devices = window.siteDevices['solar'].length;
+				// Determine minimum length in data arrays, in case they are different
+				var length = window.siteDevices['solar'][0]['readings'].length;
+				var timestamps = window.siteDevices['solar'][0].timestamps;
+				$.each(window.siteDevices['solar'], function(index, device) {
+					if (device.readings.length < length) length = device.readings.length;
+				});
+
+				// Build our average data array
+				var avg_readings = [];
+				for (i = 0; i < length; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['solar'], function(index, device) {
+						sum += device.readings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#solar-chart').html('');
+				var ctx = document.getElementById('solar-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+			}
+
+			// tempHumid
+			if (window.siteDevices['tempHumid'].length == 0) {
+				$('#temperature').hide();
+				$('#humidity').hide();
+			}
+			else {
+				$('#temperature').show();
+				$('#humidity').show();
+				var num_devices = window.siteDevices['tempHumid'].length;
+				// Determine minimum length in data arrays, in case they are different
+				var length = window.siteDevices['tempHumid'][0]['readings'].length;
+				var secondLength = window.siteDevices['tempHumid'][0]['secondaryReadings'].length;
+				var timestamps = window.siteDevices['tempHumid'][0].timestamps;
+				$.each(window.siteDevices['tempHumid'], function(index, device) {
+					if (device.readings.length < length) length = device.readings.length;
+					if (device.secondaryReadings.length < length) secondLength = device.secondaryReadings.length;
+				});
+
+				// Build our average data array
+				var avg_readings = [];
+				for (i = 0; i < length; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['tempHumid'], function(index, device) {
+						sum += device.readings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#temperature-chart').html('');
+				var ctx = document.getElementById('temperature-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+
+				// Do the same for humidity
+				var avg_readings = [];
+				for (i = 0; i < secondLength; i++) {
+					var sum = 0;
+					$.each(window.siteDevices['tempHumid'], function(index, device) {
+						sum += device.secondaryReadings[i];
+					});
+					avg_readings.push(sum/num_devices)
+				}
+
+				$('#humidity-chart').html('');
+				var ctx = document.getElementById('humidity-chart').getContext('2d');
+				lightchart = getChart(ctx, avg_readings, timestamps);
+			}
+
 		});
 	});
 
@@ -107,5 +263,45 @@
 			'solar': [],
 		}
 	}
+
+	function getChart(context, data, labels) {
+		return new Chart(context, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: '# reading',
+					data: data,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255,99,132,1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
+			}
+		});
+	}
+
 </script>
 @endsection

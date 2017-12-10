@@ -18,9 +18,8 @@ class MainController extends Controller
 
 	public function huy()
 	{
-        //dd($sites);
-
-        return view('huy', []);
+		$this->initData('10minute', null);
+        return view('huy', ['sites' => $this->sites]);
 	}
 
 	/**
