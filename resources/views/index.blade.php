@@ -198,6 +198,8 @@
             </div>
             <div class="col-sm-4">
                 <div class="well well-lg">
+                    <h3>Tomorrow's Weather Will Be:</h3>
+                    {{$weather['tomorrowWeather']}}
                 </div>
             </div>
             <div class="col-sm-4">
