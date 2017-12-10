@@ -103,7 +103,7 @@ body {
 
 
 /*============================= CHARTS START ==========================*/
-#chart_button {
+#chart_button, #gph-button {
 	width: 100%;
 	background-color: #0F084B;
 	border: 1px solid #0F084B;
