@@ -446,7 +446,7 @@ class MainController extends Controller
      */
     public function getRainData()
     {
-        return $this->getContents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=360&_sorted&parameter=rainfall");
+        return $this->getContents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=2520&_sorted&parameter=rainfall");
     }
 
     public function getContents($url)
