@@ -20,6 +20,13 @@
 	<script src="https://use.fontawesome.com/0363e80ff7.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script>
+        $(document).ready(function(){
+            $('.dropdown-toggle').dropdown();
+            $('[data-toggle_tooltip="tooltip"]').tooltip();
+        });
+	</script>
 </head>
 <body>
 	<div id="app">
@@ -29,19 +36,19 @@
 					<a class="navbar-brand" href="/">Canterbury Gardens</a>
 				</div>
 				<div class="collapse navbar-collapse" id="app-navbar-collapse">
-					Left Side Of Navbar
+					{{--Left Side Of Navbar--}}
 					<ul class="nav navbar-nav">
-						<li><a href="/">Home</a></li>
-						<li><a href="/"></a></li>
+						<li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a></li>
+						<li><a href="/graphs"><i class="fa fa-bar-chart" aria-hidden="true"></i> Graphs</a></li>
 					</ul>
 					{{--Right Side Of Navbar--}}
 					<ul class="nav navbar-nav navbar-right">
 						@guest
-							<li><a href="{{ route('login') }}">Login</a></li>
+							<li><a href="{{ route('login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
 						@else
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-									{{ Auth::user()->name }} <span class="caret"></span>
+									<i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }} <span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
