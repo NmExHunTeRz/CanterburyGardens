@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+\Illuminate\Support\Facades\Auth::routes();
+
 Route::get('/', 'MainController@index');
 
-Route::get('/huy', 'MainController@huy');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/graphs', 'MainController@graphs');

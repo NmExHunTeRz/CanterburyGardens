@@ -25,9 +25,10 @@ class MainController extends Controller
         $this->middleware('auth');
     }
 
-    public function huy()
+    public function graphs()
 	{
 		$this->initData('10minute', null);
+
         return view('huy', ['sites' => $this->sites]);
 	}
 
