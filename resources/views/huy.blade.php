@@ -5,8 +5,5 @@
 @endsection
 
 @section('content')
-    @foreach ($raindata['items'] as $data)
-        {{$data['dateTime']}} :
-        {{$data['value']}} </br>
-    @endforeach
+    {{$rainfall}} inches
 @endsection

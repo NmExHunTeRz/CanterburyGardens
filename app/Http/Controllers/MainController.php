@@ -20,8 +20,9 @@ class MainController extends Controller
 	{
         //dd($sites);
 
-        $rainData = $this->getRainData();
-        return view('huy', ['raindata' => $rainData]);
+        $rainfall24 = round(($this->rainData()/25.4), 3);
+
+        return view('huy', ['rainfall' => $rainfall24]);
 	}
 
 	/**
@@ -315,6 +316,18 @@ class MainController extends Controller
 		$this->notifications_last = $tmp_notifications_last;
 	}
 
+    public function rainData()
+    {
+        $data_rain = $rainData = $this -> getRainData();
+
+        $temp = 0;
+        
+        foreach ($data_rain['items'] as $time) {
+            $temp += $time['value'];
+        }
+
+        return $temp;
+    }
 
 	public function getData($path)
 	{
