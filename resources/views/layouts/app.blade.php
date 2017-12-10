@@ -8,7 +8,7 @@
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<title>Canterbury Gardens</title>
+	<title>@yield('title') - Canterbury Gardens</title>
 
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -83,7 +83,7 @@
 	<!-- Footer -->
 	<footer class="footer">
 		<div class="container">
-			<p class="text-muted">Cooksey Farms</p>
+			<p class="text-muted">Canterbury Gardens Ltd - {{ date("Y") }}</p>
 		</div>
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
