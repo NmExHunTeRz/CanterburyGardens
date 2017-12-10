@@ -18,8 +18,8 @@ class MainController extends Controller
 
 	public function huy()
 	{
-		dd($sites);
-		return view('huy');
+		$this->initData('10minute', null);
+		return view('huy', ['sites' => $this->sites]);
 	}
 
 	/**
@@ -27,11 +27,11 @@ class MainController extends Controller
 	 */
 	public function index()
 	{
-		$conditions = Condition::all(); //
 
 		$this->initData('minute', 750);
-		
 		$devices = collect($this->sensors)->keyBy('id');
+
+		$conditions = Condition::all(); 
 		$conditions = Condition::all()->keyBy('site_id');
 
 		$this->processNotification($devices, $conditions);

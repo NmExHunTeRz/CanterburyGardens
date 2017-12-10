@@ -79,7 +79,7 @@
 
 			<div class='col-xs-12 col-md-12 col-lg-11 tab-content'>
 				<div id='notifications-overview' class="tab-pane fade in active">
-					<p>Showing a summary of notifications over the past 12 hours</p>
+					<p>Showing a summary of notifications for all measurements taken over the past 12 hours</p>
 					<div class="notifications-container col-xs-12">
 						@foreach ($notifications as $notification)
 							@foreach ($notification as $type => $alert)
