@@ -408,8 +408,8 @@ class MainController extends Controller
                 break;
         }
 
-        $returnArray['dayTemp'] = $daydata[0]['T'];
-        $returnArray['nightTemp'] = $daydata[1]['T'];
+        $returnArray['dayTemp'] = $daydata[0]["Dm"];
+        $returnArray['nightTemp'] = $daydata[1]["Nm"];
 
         return $returnArray;
     }
