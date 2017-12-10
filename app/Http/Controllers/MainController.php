@@ -7,7 +7,8 @@ set_time_limit(60);
 use App\Condition;
 use App\Device;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class MainController extends Controller
 {
@@ -16,7 +17,15 @@ class MainController extends Controller
 	public $notifications = [];
 	public $notifications_last = [];
 
-	public function huy()
+    /**
+     * Requires that our user is authenticated in order to access any functions within this controller.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function huy()
 	{
 		$this->initData('10minute', null);
         return view('huy', ['sites' => $this->sites]);
@@ -400,10 +409,10 @@ class MainController extends Controller
                 $returnArray['tomorrowWeather'] = "Thunder Shower";
                 break;
             case '30':
-                $returnArray['tomorrowWeather'] = "Thunderstormss";
+                $returnArray['tomorrowWeather'] = "Thunderstorms";
                 break;
             default:
-                $returnArray['tomorrowWeather'] = "No weather data availible";
+                $returnArray['tomorrowWeather'] = "No weather data available";
                 break;
         }
 
@@ -415,8 +424,9 @@ class MainController extends Controller
 
 	public function getData($path)
 	{
-		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
-	}
+		return $this->getContents("http://shed.kent.ac.uk/$path");
+		// 		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
+    }
 
 	public function refreshRawSensorData($sensorID, $rate) {
 		return $this->getData("device/$sensorID/$rate");
@@ -427,7 +437,7 @@ class MainController extends Controller
      */
     public function getWeatherData()
     {
-        return json_decode(file_get_contents("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/322089?res=daily&key=e46d1123-7ccf-4a53-bd16-115c36761e23"), true);
+        return $this->getContents("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/322089?res=daily&key=e46d1123-7ccf-4a53-bd16-115c36761e23");
     }
 
     /**
@@ -435,6 +445,28 @@ class MainController extends Controller
      */
     public function getRainData()
     {
-        return json_decode(file_get_contents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=360&_sorted&parameter=rainfall"), true);
+        return $this->getContents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=360&_sorted&parameter=rainfall");
+    }
+
+    public function getContents($url)
+    {
+        $client = new Client();
+
+        try {
+            $response = $client->request('GET', $url);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response) {
+                echo "Error with server request, re-attempting in 10 seconds.<br>Response: $response";
+                header("Refresh:10");
+                exit();
+            } else {
+                echo "Error with server request, re-attempting...";
+                header("Refresh:1");
+                exit();
+            }
+        }
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

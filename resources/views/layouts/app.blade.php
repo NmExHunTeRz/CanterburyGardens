@@ -26,26 +26,18 @@
 		<nav class="navbar navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Canterbury Gardens</a>
+					<a class="navbar-brand" href="/">Canterbury Gardens</a>
 				</div>
 				<div class="collapse navbar-collapse" id="app-navbar-collapse">
-					{{--Left Side Of Navbar--}}
-					{{--<ul class="nav navbar-nav">--}}
-						{{--<li><a href="./locations/gh1.html">Greenhouse 1</a></li>--}}
-						{{--<li><a href="./locations/gh2.html">Greenhouse 2</a></li>--}}
-						{{--<li><a href="./locations/gh3.html">Greenhouse 3</a></li>--}}
-						{{--<li><a href="./locations/outdoors.html">Outdoor Plots</a></li>--}}
-						{{--<li><a href="./locations/muck.html">Muck Heap</a></li>--}}
-						{{--<li><a href="./locations/store.html">Store Room</a></li>--}}
-						{{--<li><a href="./locations/solar.html">Solar Plant</a></li>--}}
-					{{--</ul>--}}
+					Left Side Of Navbar
+					<ul class="nav navbar-nav">
+						<li><a href="/">Home</a></li>
+						<li><a href="/"></a></li>
+					</ul>
 					{{--Right Side Of Navbar--}}
 					<ul class="nav navbar-nav navbar-right">
 						@guest
-							<li><a href="">Login</a></li>
-							<li><a href="">Register</a></li>
-							{{--<li><a href="{{ route('login') }}">Login</a></li>--}}
-							{{--<li><a href="{{ route('register') }}">Register</a></li>--}}
+							<li><a href="{{ route('login') }}">Login</a></li>
 						@else
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -78,6 +70,8 @@
 			</div>
 		</div>
 	</div>
+
+
 	<!-- Footer -->
 	<footer class="footer">
 		<div class="container">
