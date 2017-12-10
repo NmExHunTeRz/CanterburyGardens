@@ -18,7 +18,7 @@ class MainController extends Controller
 
 	public function huy()
 	{
-		dd($sites);
+		//dd($sites);
 		return view('huy');
 	}
 
@@ -321,5 +321,10 @@ class MainController extends Controller
 
 	public function refreshRawSensorData($sensorID, $rate) {
 		return $this->getData("device/$sensorID/$rate");
-	}
+    }
+    
+    public function getWeatherData($path)
+    {
+        return json_decode(file_get_contents("http: //datapoint.metoffice.gov.uk/public/data/$path?key=e46d1123-7ccf-4a53-bd16-115c36761e23"), true);
+    }
 }
