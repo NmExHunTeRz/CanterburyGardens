@@ -435,6 +435,6 @@ class MainController extends Controller
      */
     public function getRainData()
     {
-        return json_decode(file_get_contents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=360&_sorted&parameter=rainfall"), true);
+        return json_decode(file_get_contents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=2520&_sorted&parameter=rainfall"), true);
     }
 }

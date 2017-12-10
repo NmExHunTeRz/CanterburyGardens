@@ -192,7 +192,7 @@
 		<!-- </div> -->
         <div class="col-sm-4">
             <div class="well well-lg">
-                <h3>Past 24 Hours Rainfall:</h3>
+                <h3>Past 7 Days' Rainfall:</h3>
                 {{$rainfall}} inches
             </div>
         </div>
