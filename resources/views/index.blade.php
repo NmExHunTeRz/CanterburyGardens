@@ -198,12 +198,15 @@
             </div>
             <div class="col-sm-4">
                 <div class="well well-lg">
-                    <h3>Tomorrow's Weather Will Be:</h3>
+                    <h3>Today's Weather Will Be:</h3>
                     {{$weather['tomorrowWeather']}}
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="well well-lg">
+                    <h3>The Temperature Today Will Be:</h3>
+                    Day: {{$weather['dayTemp']}}°C</br>
+                    Night: {{$weather['nightTemp']}}°C
                 </div>
             </div>
 	</div>
