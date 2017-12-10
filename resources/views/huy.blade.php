@@ -23,4 +23,10 @@
             </div>
         </div>
     </div>
+
+    @foreach ($weather as $day)
+        @foreach ($day as $data)
+        {{$data}}</br>
+        @endforeach
+    @endforeach
 @endsection

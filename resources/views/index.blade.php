@@ -184,12 +184,26 @@
 		<hr>
 	</div>
 	<hr>
-	<div class='row dash-weather-container no-pad'>
-		<h3 class='dash-title'>Weather</h3>
+	<div class='row dash-weather-container no-pad text-center'>
+		<!-- <h3 class='dash-title'>Weather</h3>
 		<div class="container weather-container">
-			<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div>
+			<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div> -->
 			<!-- Weather widget taken from whateverweather.com -->
-		</div>
+		<!-- </div> -->
+        <div class="col-sm-4">
+                <div class="well well-lg">
+                    <h3>Past 24 Hours Rainfall:</h3>
+                    {{$rainfall}} inches
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="well well-lg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="well well-lg">
+                </div>
+            </div>
 	</div>
 	<div class='row dash-map-container no-pad'>
 		<h3 class='dash-title'>Site Map</h3>
