@@ -65,6 +65,7 @@ class MainController extends Controller
 
 		// Initialize all sensor devices
 		$types = $this->getData('devices');
+		// dd($types);
 		foreach ($types as $key => $type) {
 			foreach ($type as $sensor) {
 				$data = $this->getData("device/$sensor");
@@ -182,12 +183,14 @@ class MainController extends Controller
 			$winter = false;
 		}
 
+		// dd($conditions);
+
 		// Implement frontend for customising DB values for conditions
 		foreach ($devices as $device) {
 			if ($device->id == 'outside_field_temp') { // Root Crop
 				$condition_site_id = 'field';
 			} else if ($device->id == 'outside_heap_temp') { // Heap
-				$condition_site_id = 'heap';
+				$condition_site_id = 'muck_heap';
 			} else if ($device->site_id == "house") { // Store Room
 				$condition_site_id = 'shed';
 			} else if (isset($conditions[$device->site_id])) {
@@ -218,7 +221,7 @@ class MainController extends Controller
 								$last_notification = "$condition_site_id:$device->id|Currently too hot: {$reading}. Optimal: {$low}-{$high}°C";
 							}
 							$percentage = round($count/$total*100);
-							$tmp_notifications[$condition_site_id]['temp'] = "$condition_site_id - $device->id|Temperature outside optimal range ({$low}-{$high}°C) for {$percentage}% of readings";
+							if ($percentage > 0) $tmp_notifications[$condition_site_id]['temp'] = "$condition_site_id - $device->id|Temperature outside optimal range ({$low}-{$high}°C) for {$percentage}% of readings";
 							if ($last_notification) $tmp_notifications_last[$condition_site_id]['temp'] = $last_notification;
 						}
 					}
@@ -238,7 +241,7 @@ class MainController extends Controller
 								$last_notification = "$condition_site_id:$device->id|Currently humidity too high: {$reading}%. Optimal: {$low}-{$high}%";
 							}
 							$percentage = round($count/$total*100);
-							$tmp_notifications[$condition_site_id]['humidity'] = "$condition_site_id - $device->id|Humidity outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
+							if ($percentage > 0) $tmp_notifications[$condition_site_id]['humidity'] = "$condition_site_id - $device->id|Humidity outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
 							if ($last_notification) $tmp_notifications_last[$condition_site_id]['humidity'] = $last_notification;
 						}
 					}
@@ -259,7 +262,7 @@ class MainController extends Controller
 								$last_notification = "[$condition_site_id:$device->id|Currently too bright: {$reading} lux. Optimal: {$low}-{$high} lux";
 							}
 							$percentage = round($count/$total*100);
-							$tmp_notifications[$condition_site_id]['lux'] = "$condition_site_id - $device->id|Brightness outside optimal range ({$low}-{$high} lux) for {$percentage}% of readings";
+							if ($percentage > 0) $tmp_notifications[$condition_site_id]['lux'] = "$condition_site_id - $device->id|Brightness outside optimal range ({$low}-{$high} lux) for {$percentage}% of readings";
 							if ($last_notification) $tmp_notifications_last[$condition_site_id]['lux'] = $last_notification;
 						}
 					}
@@ -280,7 +283,7 @@ class MainController extends Controller
 								$last_notification = "$condition_site_id:$device->id|Currently soil too wet: {$reading}%. Optimal: {$low}-{$high}%";
 							}
 							$percentage = round($count/$total*100);
-							$tmp_notifications[$condition_site_id]['moisture'] = "$condition_site_id - $device->id|Soil moisture outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
+							if ($percentage > 0) $tmp_notifications[$condition_site_id]['moisture'] = "$condition_site_id - $device->id|Soil moisture outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
 							if ($last_notification) $tmp_notifications_last[$condition_site_id]['moisture'] = $last_notification;
 						}
 					}
@@ -298,7 +301,7 @@ class MainController extends Controller
 								$last_notification = "$condition_site_id:$device->id|DANGER Carbon Monoxide level too high: {$reading}ppm. Optimal: {$low}-{$high}ppm";
 							}
 							$percentage = round($count/$total*100);
-							$tmp_notifications[$condition_site_id]['gas'] = "$condition_site_id - $device->id|DANGER Carbon Monoxide level dangerous for {$percentage}% of readings";
+							if ($percentage > 0) $tmp_notifications[$condition_site_id]['gas'] = "$condition_site_id - $device->id|DANGER Carbon Monoxide level dangerous for {$percentage}% of readings";
 							if ($last_notification) $tmp_notifications_last[$condition_site_id]['gas'] = $last_notification;
 						}
 					}
