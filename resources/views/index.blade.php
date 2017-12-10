@@ -191,19 +191,26 @@
 			<!-- Weather widget taken from whateverweather.com -->
 		<!-- </div> -->
         <div class="col-sm-4">
-                <div class="well well-lg">
-                    <h3>Past 24 Hours Rainfall:</h3>
-                    {{$rainfall}} inches
-                </div>
+            <div class="well well-lg">
+                <h3>Past 24 Hours Rainfall:</h3>
+                {{$rainfall}} inches
             </div>
-            <div class="col-sm-4">
-                <div class="well well-lg">
-                </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="well well-lg">
+                <h3>Today's Weather Will Be:</h3>
+                {{$weather['tomorrowWeather']}}
             </div>
-            <div class="col-sm-4">
-                <div class="well well-lg">
-                </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="well well-lg">
+                <h3>The Temperature Today Will Be:</h3>
+                Day Max: {{$weather['dayTemp']}}°C</br>
+                Night Min: {{$weather['nightTemp']}}°C
             </div>
+        </div>
+        <h3><a href="https://www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg
+">For Today's Full Forecast Click Here</a></h3>
 	</div>
 	<div class='row dash-map-container no-pad'>
 		<h3 class='dash-title'>Site Map</h3>

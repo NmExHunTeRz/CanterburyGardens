@@ -339,14 +339,76 @@ class MainController extends Controller
         $daydata = $fullData['SiteRep']['DV']['Location']['Period'][0]['Rep'];
 
         switch ($daydata[0]["W"]) {
-            case 'value':
-                # code...
+            case '1':
+                $returnArray['tomorrowWeather'] = "Sunny Day";
                 break;
-            
+            case '3':
+                $returnArray['tomorrowWeather'] = "Partly Cloudy";
+                break;
+            case '5':
+                $returnArray['tomorrowWeather'] = "Misty";
+                break;
+            case '6':
+                $returnArray['tomorrowWeather'] = "Foggy";
+                break;
+            case '7':
+                $returnArray['tomorrowWeather'] = "Cloudy";
+                break;
+            case '8':
+                $returnArray['tomorrowWeather'] = "Overcast";
+                break;
+            case '10':
+                $returnArray['tomorrowWeather'] = "Light Rain Showers";
+                break;
+            case '11':
+                $returnArray['tomorrowWeather'] = "Drizzle";
+                break;
+            case '12':
+                $returnArray['tomorrowWeather'] = "Light Rain";
+                break;
+            case '14':
+                $returnArray['tomorrowWeather'] = "Heavy Rain Showers";
+                break;
+            case '15':
+                $returnArray['tomorrowWeather'] = "Heavy Rain";
+                break;
+            case '17':
+                $returnArray['tomorrowWeather'] = "Sleet Shower";
+                break;
+            case '18':
+                $returnArray['tomorrowWeather'] = "Sleet";
+                break;
+            case '20':
+                $returnArray['tomorrowWeather'] = "Hail Showers";
+                break;
+            case '21':
+                $returnArray['tomorrowWeather'] = "Hail";
+                break;
+            case '23':
+                $returnArray['tomorrowWeather'] = "Light Snow Showers";
+                break;
+            case '24':
+                $returnArray['tomorrowWeather'] = "Light Snow";
+                break;
+            case '26':
+                $returnArray['tomorrowWeather'] = "Heavy Snow Showers";
+                break;
+            case '27':
+                $returnArray['tomorrowWeather'] = "Heavy Snow";
+                break;
+            case '29':
+                $returnArray['tomorrowWeather'] = "Thunder Shower";
+                break;
+            case '30':
+                $returnArray['tomorrowWeather'] = "Thunderstormss";
+                break;
             default:
                 $returnArray['tomorrowWeather'] = "No weather data availible";
                 break;
         }
+
+        $returnArray['dayTemp'] = $daydata[0]["Dm"];
+        $returnArray['nightTemp'] = $daydata[1]["Nm"];
 
         return $returnArray;
     }
