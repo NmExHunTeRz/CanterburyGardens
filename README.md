@@ -39,6 +39,11 @@ Install Xampp with PHP7 or a preferred local web server solution.
 * [Chart.js](http://www.chartjs.org/) - Graph visualisations
 * [Bootstrap 3](http://www.chartjs.org/) - Responsive front-end component library
 * [Cosmo](https://bootswatch.com/3/cosmo/) - Bootstrap theme
+* [Font Awesome](http://fontawesome.io/license/) - Scalable vector icons
+* [Department for Environment Food and Rural Affairs](http://environment.data.gov.uk) - Rainfall data from the government
+* [Guzzle](https://github.com/guzzle/guzzle) - A PHP HTTP Client
+* [Met Office](https://www.metoffice.gov.uk/datapoint) - Weather data feeds
+ 
 
 ## Authors
 

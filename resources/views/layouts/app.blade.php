@@ -24,7 +24,6 @@
 	<script>
         $(document).ready(function(){
             $('.dropdown-toggle').dropdown();
-            $('[data-toggle_tooltip="tooltip"]').tooltip();
         });
 	</script>
 </head>
