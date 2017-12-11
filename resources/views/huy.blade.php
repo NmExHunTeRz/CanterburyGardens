@@ -7,7 +7,6 @@
 @section('content')
 <script type='text/javascript'>
 	window.sites = {!! json_encode($sites) !!};
-	console.log(sites);
 </script>
 <div class='container graphs-container'>
 	<h3>Showing data averages from {{\Carbon\Carbon::today()->subWeek()->toDateString()}} to {{\Carbon\Carbon::today()->toDateString()}} at each site.</h3>
@@ -38,26 +37,32 @@
 		<div class='col-xs-12 col-lg-6' id='light'>
 			<h3 class='dash-title'>Average Light Levels</h3>
 			<canvas id='light-chart'></canvas>
+			<div id='light-data'></div>
 		</div>
 		<div class='col-xs-12 col-lg-6' id='moisture'>
 			<h3 class='dash-title'>Average Moisture Measurements</h3>
 			<canvas id='moisture-chart'></canvas>
+			<div id='moisture-data'></div>
 		</div>
 		<div class='col-xs-12 col-lg-6' id='temperature'>
 			<h3 class='dash-title'>Average Temperature Measurements</h3>
 			<canvas id='temperature-chart'></canvas>
+			<div id='temperature-data'></div>
 		</div>
 		<div class='col-xs-12 col-lg-6' id='humidity'>
 			<h3 class='dash-title'>Average Humidity Measurements</h3>
 			<canvas id='humidity-chart'></canvas>
+			<div id='humidity-data'></div>
 		</div>
 		<div class='col-xs-12 col-lg-6' id='gas'>
 			<h3 class='dash-title'>Average Carbon Monoxide measurements</h3>
 			<canvas id='gas-chart'></canvas>
+			<div id='gas-data'></div>
 		</div>
 		<div class='col-xs-12 col-lg-6' id='solar'>
 			<h3 class='dash-title'>Solar Energy Generated</h3>
 			<canvas id='solar-chart'></canvas>
+			<div id='solar-data'></div>
 		</div>
 	</div>
 </div>
@@ -118,18 +123,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#light-chart').html('');
 				var ctx = document.getElementById('light-chart').getContext('2d');
 				lightchart = getChart(ctx, movingavg_readings, timestamps);
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#light-data').html('Maximum: ' + max + ", Minimum: " + min);
 			}
 
 			// hydrometer
@@ -153,18 +155,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#moisture-chart').html('');
 				var ctx = document.getElementById('moisture-chart').getContext('2d');
 				moisturechart = getChart(ctx, movingavg_readings, timestamps)
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#moisture-data').html('Maximum: ' + max + ", Minimum: " + min);
 			}
 
 			// gas
@@ -188,18 +187,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#gas-chart').html('');
 				var ctx = document.getElementById('gas-chart').getContext('2d');
 				gaschart = getChart(ctx, movingavg_readings, timestamps);
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#gas-data').html('Maximum: ' + max + ", Minimum: " + min);
 			}
 
 			// solar
@@ -223,18 +219,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#solar-chart').html('');
 				var ctx = document.getElementById('solar-chart').getContext('2d');
 				solarchart = getChart(ctx, movingavg_readings, timestamps);
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#solar-data').html('Maximum: ' + max + ", Minimum: " + min);
 			}
 
 			// tempHumid
@@ -264,18 +257,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#temperature-chart').html('');
 				var ctx = document.getElementById('temperature-chart').getContext('2d');
 				tempchart = getChart(ctx, movingavg_readings, timestamps);
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#temperature-data').html('Maximum: ' + max + ", Minimum: " + min);
 
 				// Do the same for humidity
 				var avg_readings = [];
@@ -286,18 +276,15 @@
 					});
 					avg_readings.push(sum/num_devices)
 				}
-
-				var movingavg_readings = [];
-				movingavg_readings.push(avg_readings[0]);
-				for (i = 1; i < length - 1; i++) {
-					var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
-					movingavg_readings.push(mean);
-				}
-				movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+				var movingavg_readings = movingAverage(avg_readings, length);
 
 				$('#humidity-chart').html('');
 				var ctx = document.getElementById('humidity-chart').getContext('2d');
 				humidchart = getChart(ctx, movingavg_readings, timestamps);
+
+				var max = maxData(avg_readings);
+				var min = minData(avg_readings);
+				$('#humidity-data').html('Maximum: ' + max + ", Minimum: " + min);
 			}
 		});
 	
@@ -353,6 +340,29 @@
 				// animation: false,
 			}
 		});
+	}
+
+	function maxData($data) {
+		return $data.reduce(function(a, b) {
+			return Math.max(a, b);
+		});
+	}
+
+	function minData($data) {
+		return $data.reduce(function(a, b) {
+			return Math.min(a, b);
+		});
+	}
+
+	function movingAverage(avg_readings, length) {
+		var movingavg_readings = [];
+		movingavg_readings.push(avg_readings[0]);
+		for (i = 1; i < length - 1; i++) {
+			var mean = (avg_readings[i-1] + avg_readings[i] + avg_readings[i+1])/3.0
+			movingavg_readings.push(mean);
+		}
+		movingavg_readings.push(avg_readings[avg_readings.length - 1]);
+		return movingavg_readings;
 	}
 
 </script>
