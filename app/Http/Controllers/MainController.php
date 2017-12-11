@@ -18,13 +18,16 @@ class MainController extends Controller
 	public $notifications_last = [];
 
     /**
-     * Requires that our user is authenticated in order to access any functions within this controller.
+     * Requires that our user is authenticated in order to access any functions within this controller
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Returns the more graph specific page which allows the user to view data for a site in more depth
+     */
     public function graphs()
 	{
 		$this->initData('10minute', null);
@@ -37,8 +40,6 @@ class MainController extends Controller
 	 */
 	public function index()
 	{
-		$conditions = Condition::all(); //
-
 		$this->initData('minute', 750);
 		
 		$devices = collect($this->sensors)->keyBy('id');

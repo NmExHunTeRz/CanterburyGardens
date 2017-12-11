@@ -7,11 +7,26 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /**
+     * Requires that our user is authenticated in order to access any functions within this controller
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Returns the preferences view with all of the set conditions
+     */
     public function preferences()
     {
         return view ('preferences', ['conditions' => Condition::all()]);
     }
 
+
+    /**
+     * Updates each database entry for conditions with the new values
+     */
     public function updatePreferences(Request $request)
     {
         foreach ($request->all() as $id => $value) {
