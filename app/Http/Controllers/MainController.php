@@ -450,6 +450,9 @@ class MainController extends Controller
         return $this->getContents("http://environment.data.gov.uk/flood-monitoring/id/stations/E4090/readings.json?_limit=2520&_sorted&parameter=rainfall");
     }
 
+    /**
+     * Utilising Guzzle (a PHP HTTP client) to make requests to various different APIs and with some basic error handling in place;
+     */
     public function getContents($url)
     {
         $client = new Client();
