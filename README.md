@@ -2,9 +2,11 @@
 
 Designed to help Farmer Cooksey at Canterbury Gardens with his day-to-day farming operations by applying data aggregation, fusion and visualisation.
 
-You can also access this project from our [GitHub Repository](https://github.com/NmExHunTeRz/CanterburyGardens) 
+You can also access this project from our [GitHub Repository](https://github.com/NmExHunTeRz/CanterburyGardens)
 
-The data processing and robustness criterias were primarily addressed in `CanterburyGardens\app\Http\Controllers\MainController` and visualisation has been addressed primarily in `C:\xampp\htdocs\CanterburyGardens\resources\views` in the files `huy.blade.php` and `index.blade.php`
+Our video demonstration of the project can be viewed on [Youtube](https://www.youtube.com/watch?v=JqUNPY5axpU&feature=youtu.be) 
+
+The data processing and robustness criterias were primarily addressed in `CanterburyGardens\app\Http\Controllers\MainController` and visualisation has been addressed primarily in `C:\xampp\htdocs\CanterburyGardens\resources\views` in the files `graphs.blade.php` and `index.blade.php`
 ## Setup for Windows
 1 - Install [Xampp PHP7](https://www.apachefriends.org/download.html) and install [Composer](https://getcomposer.org/download/)
 ```
