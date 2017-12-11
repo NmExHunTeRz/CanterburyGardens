@@ -15,7 +15,6 @@
 	<link href="{{ asset('css/bootstrap-theme.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="https://bootswatch.com/3/cosmo/bootstrap.css">
 	<link href="{{ asset('css/main.css') }}" rel="stylesheet">
-	<link href="/favicon.ico" rel="icon" type="image/x-icon" />
 	<!-- JS -->
 	<script src="https://use.fontawesome.com/0363e80ff7.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
