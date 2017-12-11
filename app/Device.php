@@ -117,19 +117,24 @@ class Device
 	public function processData() {
 		// Fill null values
 		$data = $this->rawReadings;
-
-		if (in_array(null, $data, true)) {
+		$length = count($this->timestamps);
+		if ($this->dataEmpty($data)) {
+			$tmp = array_fill(0, $length, 0);
+			$this->setProcessedReadings($tmp);
+		} else if (in_array(null, $data, true)) {
 			$tmp = $this->fillNullValues($data);
 			$this->setProcessedReadings($tmp);
-		// } else if () {
-
 		} else {
 			$this->setProcessedReadings($data);
 		}
 
 		$data = $this->rawSecondaryreadings;
+		$length = count($this->secondaryTimestamps);
 		if ($data != null) {
-			if (in_array(null, $secondaryReadings, true)) {
+			if ($this->dataEmpty($data)) {
+				$tmp = array_fill(0, $length, 0);
+				$this->setProcessedSecondaryReadings($tmp);
+			} else if (in_array(null, $secondaryReadings, true)) {
 				$this->fillNullValues($data);
 				$this->setSecondaryProcessedReadings($tmp);
 			} else {
@@ -220,4 +225,12 @@ class Device
 		}
 		$this->notify = $tmp;
 	}
+
+	function dataEmpty($data) {
+	    foreach($data as $key => $value) {
+	        if (!empty($value)) return false;
+	    }
+	    return true;
+	}
+
 }

@@ -47,6 +47,9 @@ body {
 .navbar-nav > li > a:hover {
 	background-color: #1a0e84;
 }
+.navbar-nav > li > a:active {
+	background-color: #1a0e84;
+}
 
 /* Dash content */
 .dash-title {
