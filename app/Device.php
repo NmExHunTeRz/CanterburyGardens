@@ -117,9 +117,12 @@ class Device
 	public function processData() {
 		// Fill null values
 		$data = $this->rawReadings;
+
 		if (in_array(null, $data, true)) {
 			$tmp = $this->fillNullValues($data);
 			$this->setProcessedReadings($tmp);
+		// } else if () {
+
 		} else {
 			$this->setProcessedReadings($data);
 		}
@@ -133,7 +136,6 @@ class Device
 				$this->setProcessedSecondaryReadings($data);
 			}
 		}
-
 
 		// Removing invalid data
 		switch($this->getType()) {
@@ -169,7 +171,6 @@ class Device
 	 */
 	public function fillNullValues($array) {
 		$tmp = array_filter( $array, 'strlen' );
-
 		if (!empty($tmp)) { // Checks to see if our array has values
             $average = array_sum($tmp)/count($tmp);
             for($i = 0; $i < count($array); $i++) {

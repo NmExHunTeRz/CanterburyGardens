@@ -54,8 +54,8 @@
 			marker.addListener('click', function() {
 				var str =  "<ul>";
 				$.each(site.zones, function(zoneIndex, zone) {
-					console.log(zone);
 					$.each(zone.devices, function(deviceIndex, device) {
+						console.log(device);
 						str += "<li class='sensor-" + device.type + "'>" + device.name + ": " + device.readings[device.readings.length - 1] + " " + device.dataScale + "</li>";
 					});
 				});
@@ -121,7 +121,7 @@
 									<div class='col-xs-12 notification-item'><img src="/img/moisture-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
 								@endif
 								@if ($type == 'temp')
-								<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
+									<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
 								@endif
 								@if ($type == 'humidity')
 									<div class='col-xs-12 notification-item'><img src="/img/thermometer-icon.png" width="25" height="25" alt="gas_sensor"><div class='notification-contents'><p class='notification-site'>{{$arr[0]}}</p><p class="text-primary">{{$arr[1]}}</p></div></div>
@@ -158,7 +158,7 @@
 												@if ($device->notify === false)
 													<li class='text-success'>{{$device->name}} <i class="fa fa-check fa-lg" aria-hidden="true"></i></li>
 												@else
-													<li class='text-danger'>{{$device->name}} (Last connected at {{date("H:i \\o\\n d/m/Y", strtotime($device->last_connection))}}) <i class="fa fa-times fa-lg" aria-hidden="true"></i><li>
+													<li class='text-danger'>{{$device->name}} (Last connected at {{date("H:i \\o\\n d/m/Y", strtotime($device->last_connection))}}) <i class="fa fa-times fa-lg" aria-hidden="true"></i></li>
 												@endif
 											@endforeach
 										</ul>
@@ -187,10 +187,6 @@
 	</div>
 	<hr>
 	<div class='row dash-weather-container no-pad text-center'>
-		<!-- <h3 class='dash-title'>Weather</h3>
-		<div class="container weather-container">
-			<div id="cont_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><div id="spa_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"><a id="a_Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo" rel="nofollow"  href="http://www.weather-wherever.co.uk/united-kingdom/canterbury_v7956/" target="_blank" style="color:#333;text-decoration:none;">Canterbury Weather forecast</a></div><script type="text/javascript" src="http://widget.weather-wherever.co.uk/js/Nzk1Nnw1fDN8NXwzfEZGRkZGRnwxfDAwMDAwMHxDfDF8bXBo"></script></div> -->
-			<!-- Weather widget taken from whateverweather.com -->
 		<!-- </div> -->
         <div class="col-sm-4">
             <div class="well well-lg">
@@ -308,6 +304,8 @@ $(document).ready(function() {
 		var encoded_data = {!! json_encode($devices) !!};
 		generateLineGraph(encoded_data[id]['readings'], encoded_data[id]['timestamps']);
 	});
+
+	$("#chart_button").trigger("click");
 
 	function generateLineGraph (data, labels) {
 		$("#myChart").html('');
