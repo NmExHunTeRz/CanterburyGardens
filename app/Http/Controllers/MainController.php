@@ -32,7 +32,7 @@ class MainController extends Controller
 	{
 		$this->initData('10minute', null);
 
-        return view('huy', ['sites' => $this->sites]);
+        return view('graphs', ['sites' => $this->sites]);
 	}
 
 	/**
@@ -441,6 +441,13 @@ class MainController extends Controller
      */
     public function getContents($url)
     {
+//        $content = @file_get_contents($url);
+//
+//        if ($content !== false)
+//            return json_decode($content, true);
+//
+//        dump($url);
+
         $client = new Client();
 
         try {
