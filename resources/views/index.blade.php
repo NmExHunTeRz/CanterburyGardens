@@ -158,7 +158,7 @@
 												@if ($device->notify === false)
 													<li class='text-success'>{{$device->name}} <i class="fa fa-check fa-lg" aria-hidden="true"></i></li>
 												@else
-													<li class='text-danger'>{{$device->name}} <i class="fa fa-times fa-lg" aria-hidden="true"></i><li>
+													<li class='text-danger'>{{$device->name}} (Last connected at {{date("H:i \\o\\n d/m/Y", strtotime($device->last_connection))}}) <i class="fa fa-times fa-lg" aria-hidden="true"></i><li>
 												@endif
 											@endforeach
 										</ul>
