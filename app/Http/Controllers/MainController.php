@@ -182,25 +182,16 @@ class MainController extends Controller
 	}
 
 	/**
-	 *	Generate notification messages to pass to view. only used on dashboard view.
+	 *	Generate notification messages to pass to view the view, only used on dashboard view
 	 */
-	public function processNotification($devices, $conditions) // I.e. Look at the last 12 hours of data if any values fall out of the *conditions* then store a notification
+	public function processNotification($devices, $conditions)
 	{
-		$tmp_notifications = [];
-		$tmp_notifications_last = [];
+		$tmp_notifications = $tmp_notifications_last = [];
 		$condition_site_id = null;
-		$winter_months = [12, 1, 2];
 		$current_month = Carbon::now()->format('m');
+		$winter = (in_array($current_month, [12, 1, 2])) ? true : false; // Checks to see if it's currently Winter season
 
-		if (in_array($current_month, $winter_months)) {
-			$winter = true;
-		} else {
-			$winter = false;
-		}
 
-		// dd($conditions);
-
-		// Implement frontend for customising DB values for conditions
 		foreach ($devices as $device) {
 			if ($device->id == 'outside_field_temp') { // Root Crop
 				$condition_site_id = 'field';
@@ -216,7 +207,7 @@ class MainController extends Controller
 			$count = 0;
 			$last_notification = null;
 
-			if ($device->type == 'tempHumid') {
+			if ($device->type == 'tempHumid') { // Temperature
 				// Temperature
 				foreach ($device->readings as $reading) {
 					if ($condition_site_id) {
@@ -242,18 +233,17 @@ class MainController extends Controller
 					}
 				}
 				$count = 0;
-				//Humidity
-				foreach ($device->secondaryReadings as $secondaryReading) {
+				foreach ($device->secondaryReadings as $secondaryReading) { // Humidity
 					if ($condition_site_id) {
 						$low = $conditions[$condition_site_id]->low_humidity;
 						$high = $conditions[$condition_site_id]->high_humidity;
-						if ($reading && $low && $high) { //Check that nothing is null
-							if ($reading < $low) {
+						if ($secondaryReading && $low && $high) { //Check that nothing is null
+							if ($secondaryReading < $low) {
 								$count++;
-								$last_notification = "$condition_site_id:$device->id|Currently humidity too low: {$reading}%. Optimal: {$low}-{$high}%";
-							} else if ($reading > $high) {
+								$last_notification = "$condition_site_id:$device->id|Currently humidity too low: {$secondaryReading}%. Optimal: {$low}-{$high}%";
+							} else if ($secondaryReading > $high) {
 								$count++;
-								$last_notification = "$condition_site_id:$device->id|Currently humidity too high: {$reading}%. Optimal: {$low}-{$high}%";
+								$last_notification = "$condition_site_id:$device->id|Currently humidity too high: {$secondaryReading}%. Optimal: {$low}-{$high}%";
 							}
 							$percentage = round($count/$total*100);
 							if ($percentage > 0) $tmp_notifications[$condition_site_id]['humidity'] = "$condition_site_id - $device->id|Humidity outside optimal range ({$low}-{$high}%) for {$percentage}% of readings";
@@ -262,8 +252,7 @@ class MainController extends Controller
 					}
 				}
 
-			} else if ($device->type == 'lumosity') {
-				// Light 
+			} else if ($device->type == 'lumosity') { // Light
 				foreach ($device->readings as $reading) {
 					if ($condition_site_id) {
 						$low = $conditions[$condition_site_id]->low_lux;
@@ -283,8 +272,7 @@ class MainController extends Controller
 					}
 				}
 
-			} else if ($device->type == 'hydrometer') {
-				// Moisture
+			} else if ($device->type == 'hydrometer') { // Moisture
 				foreach ($device->readings as $reading) {
 					if ($condition_site_id) {
 						$low = $conditions[$condition_site_id]->low_moisture;
@@ -304,8 +292,7 @@ class MainController extends Controller
 					}
 				}
 
-			} else if ($device->type == 'gas') {
-				// CO Sensor
+			} else if ($device->type == 'gas') { // CO Sensor
 				foreach ($device->readings as $reading) {
 					if ($condition_site_id) {
 						$low = $conditions[$condition_site_id]->low_gas;
@@ -333,7 +320,7 @@ class MainController extends Controller
      */
     public function rainData()
     {
-        $data_rain = $rainData = $this -> getRainData();
+        $data_rain = $rainData = $this->getRainData();
 
         $temp = 0;
         
@@ -427,7 +414,6 @@ class MainController extends Controller
 	public function getData($path)
 	{
 		return $this->getContents("http://shed.kent.ac.uk/$path");
-		// 		return json_decode(file_get_contents("http://shed.kent.ac.uk/$path"), true);
     }
 
 	public function refreshRawSensorData($sensorID, $rate) {
@@ -455,6 +441,13 @@ class MainController extends Controller
      */
     public function getContents($url)
     {
+//        $content = @file_get_contents($url);
+//
+//        if ($content !== false)
+//            return json_decode($content, true);
+//
+//        dump($url);
+
         $client = new Client();
 
         try {
