@@ -168,14 +168,17 @@ class Device
 	 *  If array is entirely null values, this will fill every element with 0.
 	 */
 	public function fillNullValues($array) {
-		$tmp = array_filter( $array, 'strlen' );            
-		$average = array_sum($tmp)/count($tmp);
-		for($i = 0; $i < count($array); $i++) {
-			if ($array[$i] === null) {
-				$array[$i] = $average;
-			}
-		}
-		return $array;
+		$tmp = array_filter( $array, 'strlen' );
+
+		if (!empty($tmp)) { // Checks to see if our array has values
+            $average = array_sum($tmp)/count($tmp);
+            for($i = 0; $i < count($array); $i++) {
+                if ($array[$i] === null) {
+                    $array[$i] = $average;
+                }
+            }
+            return $array;
+        }
 	}
 
 	/*
