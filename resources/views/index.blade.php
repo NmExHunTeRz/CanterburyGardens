@@ -152,15 +152,17 @@
 						<div id="{{$site['id']}}" class="panel-collapse collapse panel-body">
 							<ul>
 								@foreach ($site['zones'] as $zone)
-									<li>{{$zone['name']}}<ul>
+									<li>{{$zone['name']}}
+										<ul>
 											@foreach ($zone['devices'] as $device)
-													@if ($device->notify === false)
-														<li class='text-success'>{{$device->name}} <i class="fa fa-check fa-lg" aria-hidden="true"></i></li>
-													@else
-														<li class='text-danger'>{{$device->name}} <i class="fa fa-cross fa-lg" aria-hidden="true"></i><li>
-													@endif
+												@if ($device->notify === false)
+													<li class='text-success'>{{$device->name}} <i class="fa fa-check fa-lg" aria-hidden="true"></i></li>
+												@else
+													<li class='text-danger'>{{$device->name}} <i class="fa fa-times fa-lg" aria-hidden="true"></i><li>
+												@endif
 											@endforeach
-										</ul></li>
+										</ul>
+									</li>
 								@endforeach
 							</ul>
 						</div>
