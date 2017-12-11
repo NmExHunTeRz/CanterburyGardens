@@ -2,6 +2,7 @@
 
 namespace App;
 
+// Represents a sensor device on CanterburyGardens
 class Device
 {
 	public $name;
@@ -114,6 +115,11 @@ class Device
 		$this->fidelity = $value;
 	}
 
+	/**
+	 *	Performs back-end data processing. 
+	 *	Fills in null values if there are any, or if the entire array is null, fill with 0s.
+	 *	Also removes invalid data (outside of acceptable sensor range)
+	 */
 	public function processData() {
 		// Fill null values
 		$data = $this->rawReadings;
@@ -149,7 +155,7 @@ class Device
 					$this->setProcessedReadings($tmp);
 					break;
 			case 'solar':
-					$tmp = $this->remove_invalid($this->readings, 0, 1000); // Need to verify the upper range of this
+					$tmp = $this->remove_invalid($this->readings, 0, 1000);
 					$this->setProcessedReadings($tmp);
 					break;
 			case 'hydrometer':
@@ -226,6 +232,9 @@ class Device
 		$this->notify = $tmp;
 	}
 
+	/**
+	 *	Returns whether the array is filled with null values
+	 */
 	function dataEmpty($data) {
 	    foreach($data as $key => $value) {
 	        if (!empty($value)) return false;

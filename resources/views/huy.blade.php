@@ -79,6 +79,7 @@
 		window.charts = [lightchart, moisturechart, tempchart, humidchart, gaschart, solarchart];
 		resetSiteDevices();
 
+		// Button handler for generating graphs on this page
 		$('#gph-button').click(function() {
 			resetSiteDevices();
 			$.each(window.charts, function(index, chart) {
@@ -107,13 +108,11 @@
 			else {
 				$('#light').show();
 				var num_devices = window.siteDevices['lumosity'].length;
-				// Determine minimum length in data arrays, in case they are different
 				var length = window.siteDevices['lumosity'][0]['readings'].length;
 				var timestamps = window.siteDevices['lumosity'][0].timestamps;
 				$.each(window.siteDevices['lumosity'], function(index, device) {
 					if (device.readings.length < length) length = device.readings.length;
 				});
-
 				// Build our average data array
 				var avg_readings = [];
 				for (i = 0; i < length; i++) {
@@ -128,7 +127,6 @@
 				$('#light-chart').html('');
 				var ctx = document.getElementById('light-chart').getContext('2d');
 				lightchart = getChart(ctx, movingavg_readings, timestamps);
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#light-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -139,13 +137,11 @@
 			else {
 				$('#moisture').show();
 				var num_devices = window.siteDevices['hydrometer'].length;
-				// Determine minimum length in data arrays, in case they are different
 				var length = window.siteDevices['hydrometer'][0]['readings'].length;
 				var timestamps = window.siteDevices['hydrometer'][0].timestamps;
 				$.each(window.siteDevices['hydrometer'], function(index, device) {
 					if (device.readings.length < length) length = device.readings.length;
 				});
-
 				// Build our average data array
 				var avg_readings = [];
 				for (i = 0; i < length; i++) {
@@ -160,7 +156,6 @@
 				$('#moisture-chart').html('');
 				var ctx = document.getElementById('moisture-chart').getContext('2d');
 				moisturechart = getChart(ctx, movingavg_readings, timestamps)
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#moisture-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -171,13 +166,11 @@
 			else {
 				$('#gas').show();
 				var num_devices = window.siteDevices['gas'].length;
-				// Determine minimum length in data arrays, in case they are different
 				var length = window.siteDevices['gas'][0]['readings'].length;
 				var timestamps = window.siteDevices['gas'][0].timestamps;
 				$.each(window.siteDevices['gas'], function(index, device) {
 					if (device.readings.length < length) length = device.readings.length;
 				});
-
 				// Build our average data array
 				var avg_readings = [];
 				for (i = 0; i < length; i++) {
@@ -192,7 +185,6 @@
 				$('#gas-chart').html('');
 				var ctx = document.getElementById('gas-chart').getContext('2d');
 				gaschart = getChart(ctx, movingavg_readings, timestamps);
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#gas-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -203,13 +195,11 @@
 			else {
 				$('#solar').show();
 				var num_devices = window.siteDevices['solar'].length;
-				// Determine minimum length in data arrays, in case they are different
 				var length = window.siteDevices['solar'][0]['readings'].length;
 				var timestamps = window.siteDevices['solar'][0].timestamps;
 				$.each(window.siteDevices['solar'], function(index, device) {
 					if (device.readings.length < length) length = device.readings.length;
 				});
-
 				// Build our average data array
 				var avg_readings = [];
 				for (i = 0; i < length; i++) {
@@ -224,7 +214,6 @@
 				$('#solar-chart').html('');
 				var ctx = document.getElementById('solar-chart').getContext('2d');
 				solarchart = getChart(ctx, movingavg_readings, timestamps);
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#solar-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -239,7 +228,6 @@
 				$('#temperature').show();
 				$('#humidity').show();
 				var num_devices = window.siteDevices['tempHumid'].length;
-				// Determine minimum length in data arrays, in case they are different
 				var length = window.siteDevices['tempHumid'][0]['readings'].length;
 				var secondLength = window.siteDevices['tempHumid'][0]['secondaryReadings'].length;
 				var timestamps = window.siteDevices['tempHumid'][0].timestamps;
@@ -247,7 +235,6 @@
 					if (device.readings.length < length) length = device.readings.length;
 					if (device.secondaryReadings.length < length) secondLength = device.secondaryReadings.length;
 				});
-
 				// Build our average data array
 				var avg_readings = [];
 				for (i = 0; i < length; i++) {
@@ -262,7 +249,6 @@
 				$('#temperature-chart').html('');
 				var ctx = document.getElementById('temperature-chart').getContext('2d');
 				tempchart = getChart(ctx, movingavg_readings, timestamps);
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#temperature-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -281,7 +267,6 @@
 				$('#humidity-chart').html('');
 				var ctx = document.getElementById('humidity-chart').getContext('2d');
 				humidchart = getChart(ctx, movingavg_readings, timestamps);
-
 				var max = maxData(avg_readings);
 				var min = minData(avg_readings);
 				$('#humidity-data').html('Maximum: ' + max + ", Minimum: " + min);
@@ -289,8 +274,6 @@
 		});
 	
 	$('#gph-button').trigger('click');
-
-	});
 
 	function resetSiteDevices() {
 		window.siteDevices = {
@@ -302,6 +285,7 @@
 		}
 	}
 
+	// Creates a new Chart.JS chart
 	function getChart(context, data, labels) {
 		return new Chart(context, {
 			type: 'line',
@@ -354,6 +338,7 @@
 		});
 	}
 
+	// Performs moving average smoothing on device data.
 	function movingAverage(avg_readings, length) {
 		var movingavg_readings = [];
 		movingavg_readings.push(avg_readings[0]);

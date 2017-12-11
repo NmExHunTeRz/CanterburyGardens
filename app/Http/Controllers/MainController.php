@@ -198,8 +198,6 @@ class MainController extends Controller
 			$winter = false;
 		}
 
-		// dd($conditions);
-
 		// Implement frontend for customising DB values for conditions
 		foreach ($devices as $device) {
 			if ($device->id == 'outside_field_temp') { // Root Crop

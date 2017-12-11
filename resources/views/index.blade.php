@@ -7,9 +7,7 @@
 @section('content')
 <script type='text/javascript'>
 		window.sites = {!! json_encode($sites) !!};
-		console.log(sites);
 		window.devices = {!! json_encode($devices) !!};
-		console.log(devices);
 </script>
 
 <!-- Map Scripting -->
@@ -50,12 +48,10 @@
 				icon: site.icon,
 				optimized: false
 			});
-			// marker.setIcon(site.icon);
 			marker.addListener('click', function() {
 				var str =  "<ul>";
 				$.each(site.zones, function(zoneIndex, zone) {
 					$.each(zone.devices, function(deviceIndex, device) {
-						console.log(device);
 						str += "<li class='sensor-" + device.type + "'>" + device.name + ": " + device.readings[device.readings.length - 1] + " " + device.dataScale + "</li>";
 					});
 				});
@@ -207,8 +203,7 @@
                 Night Min: {{$weather['nightTemp']}}°C
             </div>
         </div>
-        <h3><a href="https://www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg
-">For Today's Full Forecast Click Here</a></h3>
+        <h3><a href="https://www.metoffice.gov.uk/public/weather/forecast/u10g8x4vg">For Today's Full Forecast Click Here</a></h3>
 	</div>
 	<div class='row dash-map-container no-pad'>
 		<h3 class='dash-title'>Site Map</h3>
@@ -263,6 +258,7 @@
 	</div>
 </div>
 
+<!-- Chart scripting -->
 <script>
 $(document).ready(function() {
 	var chart = null;
