@@ -191,12 +191,6 @@ class MainController extends Controller
 		$current_month = Carbon::now()->format('m');
 		$winter = (in_array($current_month, [12, 1, 2])) ? true : false; // Checks to see if it's currently Winter season
 
-		if (in_array($current_month, $winter_months)) {
-			$winter = true;
-		} else {
-			$winter = false;
-		}
-
 		// Implement frontend for customising DB values for conditions
 		foreach ($devices as $device) {
 			if ($device->id == 'outside_field_temp') { // Root Crop
